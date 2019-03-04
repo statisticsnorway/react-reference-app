@@ -1,68 +1,84 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# react-reference-app
+This application and its documentation should be used as a reference when creating new React applications that you want to 
+deploy to BIP.
 
-## Available Scripts
+### What you need
+When creating a React application/library you need the following installed: 
+* JavaScript runtime [Node.js](https://nodejs.org/en/) (Use LTS version)
+* Dependency manager [Yarn](https://yarnpkg.com/en/) (Use Stable version)
 
-In the project directory, you can run:
+Use `npx create-react-app app-name` when creating new applications or libraries (almost everything is then setup for you).
 
-### `npm start`
+### Standards
+* Use [standardJS](https://standardjs.com/) for code formatting ([find your text editor plugin](https://standardjs.com/#are-there-text-editor-plugins))
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Preferred dependencies
+* When working with JavaScript date objects, use [date-fns](https://date-fns.org/)
+* When working with routes in your application, use [React Router](https://reacttraining.com/react-router/web/guides/quick-start)
+* When styling the UI use [Semantic UI React](https://react.semantic-ui.com/)
+* When writing tests use [Jest](https://jestjs.io/en/) (comes pre-installed when creating application) and [React Testing Library](https://testing-library.com/react)
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+### Create library
+Requires some configuration and bundling via [rollup.js](https://rollupjs.org/guide/en).
 
-### `npm test`
+### Writing tests
+Easy to follow guides for **Jest** are located [here](https://jestjs.io/docs/en/tutorial-react) and if you need to test
+DOM manipulation use **React Testing Library**, guides for can be found [here](https://testing-library.com/docs/react-testing-library/intro).
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Try this application locally
+The first time you clone the repository, remember to run `yarn install`
 
-### `npm run build`
+Run `REACT_APP_BACKEND="BACKEND_url_here" yarn start` and navigate to `http://localhost:3000/`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The content of the environment is printed in the browser console when you visit the application page.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+**Note** that if you leave out `REACT_APP_BACKEND` it is left out of the environment. There is no limit to how many you can have.
+These variables can be accessed through `process.env` like the example in `App.js`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`yarn test` runs all tests and `yarn coverage` calculates (rather unreliably) test coverage.
 
-### `npm run eject`
+### Docker
+- `docker build . -t react-reference-app:0.1`
+- `docker run -p 8000:80 react-reference-app:0.1`
+- Navigate to `http://localhost:8000/`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Deploying to platform
+The repository name needs a prefix which should be `fe-`, this stands for front-end. If a Jenkinsfile is present the 
+build should result in a docker-container that can be deployed on the platform. 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+For the deploy to actually happen the applicationeeds a HelmRelease. To do that fork 
+[https://github.com/statisticsnorway/platform](https://github.com/statisticsnorway/platform) and add the release to 
+[https://github.com/statisticsnorway/platform/tree/master/flux/staging/releases](https://github.com/statisticsnorway/platform/tree/master/flux/staging/releases).
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+To expose your application on the internet. To do that fork [https://github.com/statisticsnorway/platform](https://github.com/statisticsnorway/platform) 
+and add a VirtualService here [https://github.com/statisticsnorway/platform/blob/master/flux/staging/istio/common/istio-ingress.yaml](https://github.com/statisticsnorway/platform/blob/master/flux/staging/istio/common/istio-ingress.yaml)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### Dockerfile
+Should look like this:
+```
+FROM node:10.15.2-alpine as react-build
+WORKDIR /app
+COPY . ./
+RUN yarn
+RUN REACT_APP_BACKEND="http://localhost:9090/" yarn build
 
-## Learn More
+FROM nginx:alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=react-build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+**Note** the `REACT_APP_BACKEND` here also.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+We can reduce the size of the image with a `.dockerignore`-file that contains:
+```
+.git
+node_modules
+build
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Jenkinsfile
+Should look like this:
+```
 
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+```
