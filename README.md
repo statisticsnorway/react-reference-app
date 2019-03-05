@@ -2,6 +2,8 @@
 This application and its documentation should be used as a reference when creating new React applications that you want to 
 deploy to BIP.
 
+**Note:** Everything written here is subject to heavy change during a testing process.
+
 ### What you need
 When creating a React application/library you need the following installed: 
 * JavaScript runtime [Node.js](https://nodejs.org/en/) (Use LTS version)
@@ -46,35 +48,17 @@ These variables can be accessed through `process.env` like the example in `App.j
 The repository name needs a prefix which should be `fe-`, this stands for front-end. If a Jenkinsfile is present the 
 build should result in a docker-container that can be deployed on the platform. 
 
-For the deploy to actually happen the applicationeeds a HelmRelease. To do that fork 
+For the deploy to actually happen the applicationeeds a HelmRelease. To do that branch from 
 [https://github.com/statisticsnorway/platform](https://github.com/statisticsnorway/platform) and add the release to 
 [https://github.com/statisticsnorway/platform/tree/master/flux/staging/releases](https://github.com/statisticsnorway/platform/tree/master/flux/staging/releases).
 
-To expose your application on the internet. To do that fork [https://github.com/statisticsnorway/platform](https://github.com/statisticsnorway/platform) 
+To expose your application on the internet. To do that branch from [https://github.com/statisticsnorway/platform](https://github.com/statisticsnorway/platform) 
 and add a VirtualService here [https://github.com/statisticsnorway/platform/blob/master/flux/staging/istio/common/istio-ingress.yaml](https://github.com/statisticsnorway/platform/blob/master/flux/staging/istio/common/istio-ingress.yaml)
 
 #### Dockerfile
 Should look like this:
 ```
-FROM node:10.15.2-alpine as react-build
-WORKDIR /app
-COPY . ./
-RUN yarn
-RUN REACT_APP_BACKEND="http://localhost:9090/" yarn build
 
-FROM nginx:alpine
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=react-build /app/build /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-```
-**Note** the `REACT_APP_BACKEND` here also.
-
-We can reduce the size of the image with a `.dockerignore`-file that contains:
-```
-.git
-node_modules
-build
 ```
 
 #### Jenkinsfile
