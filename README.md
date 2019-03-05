@@ -2,6 +2,8 @@
 This application and its documentation should be used as a reference when creating new React applications that you want to 
 deploy to BIP.
 
+**Note:** Everything written here is subject to heavy change during a testing process.
+
 ### What you need
 When creating a React application/library you need the following installed: 
 * JavaScript runtime [Node.js](https://nodejs.org/en/) (Use LTS version)
@@ -58,7 +60,6 @@ Should look like this:
 ```
 
 ```
-**Note** the `REACT_APP_BACKEND` here also.
 
 #### Jenkinsfile
 Should look like this:
