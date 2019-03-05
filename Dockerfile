@@ -1,4 +1,4 @@
-FROM node:10.15.2-alpine as react-build
+FROM node:8.15.1-alpine as react-build
 WORKDIR /app
 COPY . ./
 RUN yarn
