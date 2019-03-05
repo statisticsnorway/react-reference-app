@@ -6,8 +6,8 @@ pipeline {
         DOCKER_TAG = "${env.BRANCH_NAME}-${GIT_COMMIT.substring(0,7)}"
         DOCKER_SCAN_TAG = "image-scan-${env.BRANCH_NAME}-${GIT_COMMIT.substring(0,7)}"
         PACKAGE_JSON = readJSON file: 'package.json'
-        ARTIFACT_ID = PACKAGE_JSON.name
-        VERSION = PACKAGE_JSON.version
+        ARTIFACT_ID = "${PACKAGE_JSON.name}"
+        VERSION = "${PACKAGE_JSON.version}"
         SLACK_PREFIX = "Build <${env.BUILD_URL}|${env.JOB_NAME}/${env.BUILD_NUMBER}>:"
     }
     stages {
