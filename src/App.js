@@ -7,7 +7,7 @@ class App extends Component {
   state = {
     loading: false,
     response: false,
-    url: ''
+    url: 'https://lds.staging.ssbmod.net/data/Agent?schema'
   }
 
   componentDidMount () {
@@ -15,7 +15,7 @@ class App extends Component {
   }
 
   handleChange = (event, data) => {
-    this.setState({[data.name]: [data.value]})
+    this.setState({[data.name]: data.value})
   }
 
   testEndpoint = () => {

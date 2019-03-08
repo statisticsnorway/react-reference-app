@@ -19,14 +19,19 @@ const setup = () => {
 }
 
 test('App renders correctly', () => {
-  const {getByTestId, queryAllByPlaceholderText, queryAllByText} = setup()
+  const {getByPlaceholderText, getByTestId, queryAllByPlaceholderText, queryAllByText} = setup()
 
   expect(queryAllByPlaceholderText('Test endpoint...')).toHaveLength(1)
+  expect(getByPlaceholderText('Test endpoint...').value).toEqual('https://lds.staging.ssbmod.net/data/Agent?schema')
   expect(queryAllByText('Test')).toHaveLength(1)
+  expect(getByTestId('button')).toBeEnabled()
+
+  fireEvent.change(getByPlaceholderText('Test endpoint...'), {target: {value: ''}})
+
   expect(getByTestId('button')).toBeDisabled()
 })
 
-test('App handles healthy fetch correctly', async () => {
+test('App handles fetch correctly', async () => {
   get.mockImplementation(() => Promise.resolve())
 
   const {getByPlaceholderText, getByTestId, getByText} = setup()
@@ -37,5 +42,5 @@ test('App handles healthy fetch correctly', async () => {
   await waitForElement(() => getByText('Check browser console for response'))
 
   expect(get).toHaveBeenCalledTimes(1)
-  expect(get).toHaveBeenCalledWith(['https://www.someurl.com'])
+  expect(get).toHaveBeenCalledWith('https://www.someurl.com')
 })
