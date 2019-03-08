@@ -49,7 +49,7 @@ These variables can be accessed through `process.env` like the example in `App.j
 ### Deploying to platform
 The repository name needs a prefix which should be `fe-`, this stands for **f**ront-**e**nd. If a Jenkinsfile is present 
 it will trigger a build on pull requests and commits to branches with a pull request open. The build should result in a 
-docker-container that can be deployed on the platform. 
+docker-container that can be deployed on the platform.
 
 You can check running builds here [https://jenkins.infra.ssbmod.net/job/mod-sirius/](https://jenkins.infra.ssbmod.net/job/mod-sirius/).
 
@@ -59,51 +59,13 @@ To expose your application on the internet you need to add a VirtualService.
 
 These things are handled by the platform developers for now.
 
-#### Keycloak
-Applications deployed to the platform will have Keycloak Gatekeeper in front of them handling authorization. To use this
-in your application you need to add `Authorization` to the header of your calls:
-```
-fetch(url, {
-  method: 'GET',
-  headers: {
-    'Authorization': `Bearer ${cookieToken}`
-  }
-})
-```
-
-This token can be found by accessing the cookies created by the Gatekeeper for your application:
-```
-const cookieItem = 'kc-access'
-const cookieToken = document.cookie.split(';')
-  .filter(item => item.includes(`${cookieItem}=`))[0]
-  .replace(`${cookieItem}=`, '')
-```
-
-Replace `kc-access` with whatever the name of the token cookie item you are looking for is called. If you need to 
-checkout what cookies Gatekeeper has created you can always open the developer tools in your browser and check Cookies 
-under the Application tab.
+Commits to master should deploy the new version of the application when everything is setup correctly.
 
 #### Dockerfile
 [Dockerfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Dockerfile)
 
-The reason for copying over our own [nginx.conf](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/nginx.conf) is for it to work with **React Router**, so we make our own:
-```
-server {
-    listen       80;
-    server_name  localhost;
-
-    location / {
-        root   /usr/share/nginx/html;
-        index  index.html index.htm;
-        try_files $uri /index.html;
-    }
-
-    error_page   500 502 503 504  /50x.html;
-    location = /50x.html {
-        root   /usr/share/nginx/html;
-    }
-}
-```
+The reason for copying over our own [nginx.conf](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/nginx.conf) 
+is for it to work with **React Router**.
 
 #### Jenkinsfile
 [Jenkinsfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Jenkinsfile)
