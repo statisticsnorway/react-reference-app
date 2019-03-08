@@ -16,16 +16,16 @@ pipeline {
                 slackSend color: "#439FE0", message: "${env.SLACK_PREFIX} Started\nArtifact ID: `${env.ARTIFACT_ID}`\nApplication version: `${env.VERSION}`\nGit branch: `${env.BRANCH_NAME}`"
             }
         }
-        stage('Build and test') {
+        stage('Test and build') {
             steps {
-                slackSend color: '#439FE0', message: "${env.SLACK_PREFIX} Build and test - Start"
+                slackSend color: '#439FE0', message: "${env.SLACK_PREFIX} Test and build - Start"
                 sh 'yarn install'
-                sh 'yarn build'
                 sh 'yarn test --no-watch'
+                sh 'yarn build'
             }
             post {
                 success {
-                    slackSend color: 'good', message: "${env.SLACK_PREFIX} Build and test - Success\n`${env.ARTIFACT_ID}:${env.VERSION}` built and tested"
+                    slackSend color: 'good', message: "${env.SLACK_PREFIX} Test and build - Success\n`${env.ARTIFACT_ID}:${env.VERSION}` tested and built"
                 }
             }
         }
