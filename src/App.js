@@ -7,7 +7,7 @@ class App extends Component {
   state = {
     loading: false,
     response: false,
-    url: 'https://lds.staging.ssbmod.net/data/Agent?schema'
+    url: 'https://lds.staging.ssbmod.net/ns/Agent?schema'
   }
 
   componentDidMount () {

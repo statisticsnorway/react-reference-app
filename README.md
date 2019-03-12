@@ -74,3 +74,4 @@ is for it to work with **React Router**.
 * Multistaging Dockerfiles (needs newer version of Docker on the platform)
 * Runtime environment variables (needs some trixing with Nginx and `window_env_`)
 * Newer versions of Node.js and Yarn installed on Jenkins (right now we are limited to Node 8.14.0 and Yarn 1.7.0)
+* Implementing some way to omit having to refresh web page (F5) every 5 minutes to get a working token from Gatekeeper
