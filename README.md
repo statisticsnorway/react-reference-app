@@ -9,7 +9,8 @@ When creating a React application/library you need the following installed:
 * JavaScript runtime [Node.js](https://nodejs.org/en/) (Use LTS version)
 * Dependency manager [Yarn](https://yarnpkg.com/en/) (Use Stable version)
 
-Use `npx create-react-app app-name` when creating new applications or libraries (almost everything is then setup for you).
+Use `yarn create react-app my-app` when creating new applications or libraries (almost everything is then setup for you).
+Everything that was created in `/src` should be deleted.
 
 ### Standards
 * Use [standardJS](https://standardjs.com/) for code formatting ([find your text editor plugin](https://standardjs.com/#are-there-text-editor-plugins))
@@ -18,11 +19,12 @@ Use `npx create-react-app app-name` when creating new applications or libraries 
 * When working with JavaScript date objects, use [date-fns](https://date-fns.org/)
 * When working with routes in your application, use [React Router](https://reacttraining.com/react-router/web/guides/quick-start)
 * When styling the UI use [Semantic UI React](https://react.semantic-ui.com/)
+* When fetching resources use [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 * When writing tests use [Jest](https://jestjs.io/en/) (comes pre-installed when creating application) and [React Testing Library](https://testing-library.com/react)
   * If you need more matchers than Jest offers, use [jest-dom](https://github.com/gnapse/jest-dom)
 
 ### Create library
-Requires some configuration and bundling via [rollup.js](https://rollupjs.org/guide/en).
+Requires some configuration and bundling with [rollup.js](https://rollupjs.org/guide/en).
 
 ### Writing tests
 Easy to follow guides for **Jest** are located [here](https://jestjs.io/docs/en/tutorial-react) and if you need to test
@@ -61,6 +63,9 @@ These things are handled by the platform developers for now.
 
 Commits to master should deploy the new version of the application when everything is setup correctly.
 
+`credentials: 'include'` must be present in Fetch calls in order to use Gatekeeper tokens to talk to other services deployed
+on the platform.
+
 #### Dockerfile
 [Dockerfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Dockerfile)
 
@@ -69,6 +74,8 @@ is for it to work with **React Router**.
 
 #### Jenkinsfile
 [Jenkinsfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Jenkinsfile)
+
+**Note**: Change `DOCKER_IMAGE` name on line 5 to your application name.
 
 ### Things down the line
 * Multistaging Dockerfiles (needs newer version of Docker on the platform)
