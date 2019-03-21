@@ -32,5 +32,20 @@
   "devDependencies": {
     "jest-dom": "^3.1.2",
     "react-testing-library": "^6.0.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**",
+      "!src/Get.js",
+      "!src/index.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 75,
+        "functions": 75,
+        "lines": 75,
+        "statements": 75
+      }
+    }
   }
 }
