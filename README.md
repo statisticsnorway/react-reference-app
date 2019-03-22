@@ -28,7 +28,23 @@ Requires some configuration and bundling with [rollup.js](https://rollupjs.org/g
 
 ### Writing tests
 Easy to follow guides for **Jest** are located [here](https://jestjs.io/docs/en/tutorial-react) and if you need to test
-DOM manipulation use **React Testing Library**, guides found [here](https://testing-library.com/docs/react-testing-library/intro).
+DOM manipulation use **React Testing Library**, guides found [here](https://testing-library.com/docs/react-testing-library/intro). 
+The `debug` property exposed by **React Testing Library** is very useful so do yourself a favor and check that out!
+
+Test coverage thresholds and other options can be configured in the `jest` object in [package.json](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/package.json),
+documentation found [here](https://jestjs.io/docs/en/configuration). Something to keep in mind would be to exclude files like 
+`index.js`, or files that only use external libraries. Mainly because these types of files do not need to be testet, but also
+because they contribute to inaccurate coverage reporting.
+
+Right now the **Jenkinsfile** runs `yarn test` (line 23) but when we have a conclusion on test coverage minimum for deploys on the platform
+this will be replaced with `yarn coverage` which exits with code 1 if thresholds are not met (those set in `package.json`) and thus
+will not result in a success on that stage in the pipeline.
+
+Check out the tests written in this application, or in [linked-data-store-client](https://github.com/statisticsnorway/linked-data-store-client/tree/master/src/__tests__), 
+to get you started if you need some ideas.
+
+The `--verbose=false` flag is added to `react scripts test` in `package.json` to enable `console.log()` to work in tests.
+Useful for debugging of course.
 
 ### Try this application locally
 The first time you clone the repository, remember to run `yarn install`.
@@ -49,11 +65,12 @@ These variables can be accessed through `process.env` like the example in `App.j
 * Navigate to `http://localhost:8000/`
 
 ### Deploying to platform
-A repository name with the prefix `fe-` (**f**ront-**e**nd) will be automatically picked up by the platform if a Jenkinsfile 
-is present and the team MOD P1 has read/write access to the repository. A build will trigger on pull requests. A deploy will 
-trigger when commiting to master. These default rules can be overridden by the platform team if needed.
+A repository name with the prefix `fe-` (**f**ront-**e**nd) will be automatically picked up by the platform if a **Jenkinsfile** 
+is present and the team **MOD P1** has read/write access to the repository (because the Jenkins user is a member of that team). 
+A build will trigger on pull requests. A deploy will trigger when commiting to master. These default rules can be overridden 
+by the platform team if needed.
 
-The build must result in a docker-image that can be deployed on the platform. This is done through the Jenkinsfile.
+The build must result in a docker-image that can be deployed on the platform. This is done through the **Jenkinsfile**.
 
 You can check running builds here [https://jenkins.infra.ssbmod.net/job/mod-sirius/](https://jenkins.infra.ssbmod.net/job/mod-sirius/).
 
@@ -92,6 +109,7 @@ is for it to work with **React Router**.
   * This means that things like Yarn and NodeJS will be contained in the docker-image and the build is done when creating 
     the image, rather than by Jenkins beforehand
 * Runtime environment variables (needs some trixing with Nginx and `window_env_`)
-  * This will the replace `process.env` and means environment variables can be changed without needing a new deploy
+  * This will the replace `process.env` and enables changing environment variables without needing a new deploy
 * Better integration with Keycloak Gatekeeper so we do not have to refresh the web page (F5) every 5 minutes to 
   get a working token
+  * Or potenitally a totally different way of handling authentication
