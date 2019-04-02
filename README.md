@@ -10,16 +10,20 @@ When creating a React application/library you need the following installed:
 * Dependency manager [Yarn](https://yarnpkg.com/en/) (Use Stable version)
 
 Use `yarn create react-app my-app` when creating new applications or libraries (almost everything is then setup for you).
-Delete the content of `/src` and start coding!
+Replace `my-app` with the name of your application. Delete the content of `/src` and start coding!
 
 ### Standards
 * Use [standardJS](https://standardjs.com/) for code formatting ([find your text editor plugin](https://standardjs.com/#are-there-text-editor-plugins))
 
 ### Preferred dependencies
 * When working with JavaScript date objects, use [date-fns](https://date-fns.org/)
+  * A great datepicker component is [ReactJS Datepicker](https://reactdatepicker.com/)
 * When working with routes in your application, use [React Router](https://reacttraining.com/react-router/web/guides/quick-start)
 * When styling the UI, use [Semantic UI React](https://react.semantic-ui.com/)
-* When working with http-requests, use [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+  * If you need a table component with more functions built-in than the one Semantic UI offers, use [React Table](https://github.com/tannerlinsley/react-table)
+* When working with http-requests, use the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+* For charts and data visualizations, checkout our testing of different chart libraries in [fe-react-data-visualizations](https://github.com/statisticsnorway/fe-react-data-visualizations)
+* Need to generate valid RFC UUIDs? Use [uuid](https://github.com/kelektiv/node-uuid)
 * When writing tests, use [Jest](https://jestjs.io/en/) (comes pre-installed when creating application) and [React Testing Library](https://testing-library.com/react)
   * If you need more matchers than Jest offers, use [jest-dom](https://github.com/gnapse/jest-dom)
 
@@ -83,6 +87,7 @@ developers in the future.
 
 `credentials: 'include'` must be present in Fetch calls for the application to use tokens to talk to other services deployed
 on the platform. Since this will not work when testing locally it is smart to set this per environment:
+
 ```
 const credentials = process.env.NODE_ENV === 'production' ? 'include' : 'same-origin'
 
@@ -92,6 +97,7 @@ fetch(url, {
   headers: {'Content-Type': 'application/json; charset=utf-8'}
 })
 ```
+
 `same-origin` is default but it can also be set to `omit`, check [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials).
 
 #### Dockerfile
