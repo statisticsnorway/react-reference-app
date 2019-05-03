@@ -62,6 +62,9 @@ These variables can be accessed through `process.env` like the example in `App.j
 
 `yarn test` runs all tests and `yarn coverage` calculates (rather unreliably) test coverage.
 
+### Environment variables
+Simply follow the great [documentation](https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables#adding-development-environment-variables-in-env) provided by the React developers.
+
 ### Docker locally
 * `yarn build`
 * `docker build . -t react-reference-app:0.1`
@@ -109,6 +112,12 @@ is for it to work with **React Router**.
 #### Jenkinsfile
 [Jenkinsfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Jenkinsfile) - Change `DOCKER_IMAGE` name on line 5 to your application name.
 
+**Note:**
+If you are using `react scripts` version `3.0.0` or above, you need to replace `yarn test --no-watch` and `yarn build` on
+lines 23 and 24 with `CI=true yarn test` and `CI=true yarn build` respectivly. This is because `--no-watch` is deprecated 
+and we want the commands to run non-interactivly when dealing with continuous integration. 
+Documentation found [here](https://facebook.github.io/create-react-app/docs/running-tests#continuous-integration).
+
 ### Things down the line
 * Newer versions of Node.js and Yarn installed on Jenkins (right now we are limited to Node 8.14.0 and Yarn 1.7.0)
 * Multistaging Dockerfiles (needs newer version of Docker on the platform)
@@ -117,5 +126,5 @@ is for it to work with **React Router**.
 * Runtime environment variables (needs some trixing with Nginx and `window_env_`)
   * This will the replace `process.env` and enables changing environment variables without needing a new deploy
 * Better integration with Keycloak Gatekeeper so we do not have to refresh the web page (F5) every 5 minutes to 
-  get a working token
+  get a working token or have cookie collisions
   * Or potenitally a totally different way of handling authentication
