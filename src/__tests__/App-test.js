@@ -22,7 +22,7 @@ test('App renders correctly', () => {
   const {getByPlaceholderText, getByTestId, queryAllByPlaceholderText, queryAllByText} = setup()
 
   expect(queryAllByPlaceholderText('Test endpoint...')).toHaveLength(1)
-  expect(getByPlaceholderText('Test endpoint...').value).toEqual('https://lds.staging.ssbmod.net/ns/Agent?schema')
+  expect(getByPlaceholderText('Test endpoint...').value).toEqual('https://reactapp.staging.ssbmod.net/be/lds/ns/Agent?schema')
   expect(queryAllByText('Test')).toHaveLength(1)
   expect(getByTestId('button')).toBeEnabled()
 
