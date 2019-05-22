@@ -115,6 +115,8 @@ lines 5 and 6 with `yarn test --no-watch` and `yarn build` respectivly. This is 
 replaced with `CI=true` in `3.0.0` and we want the commands to run non-interactivly when dealing with continuous integration. 
 Documentation found [here](https://facebook.github.io/create-react-app/docs/running-tests#continuous-integration).
 
+The `.dockerignore` file prevents Docker from scanning and copying unnecessary files during building which speeds up
+the process a little, escpecially on Windows.
+
 #### Jenkinsfile
 [Jenkinsfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Jenkinsfile) - Change `DOCKER_IMAGE` name on line 5 to your application name.
-
