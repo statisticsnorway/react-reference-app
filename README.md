@@ -66,7 +66,6 @@ These variables can be accessed through `process.env` like the example in `App.j
 Simply follow the great [documentation](https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables#adding-development-environment-variables-in-env) provided by the React developers.
 
 ### Docker locally
-* `yarn build`
 * `docker build . -t react-reference-app:0.1`
 * `docker run -p 8000:80 react-reference-app:0.1`
 * Navigate to `http://localhost:8000/`
