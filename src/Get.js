@@ -1,9 +1,6 @@
-const credentials = process.env.NODE_ENV === 'production' ? 'include' : 'same-origin'
-
 export const get = (url) => {
   return new Promise((resolve) => {
     fetch(url, {
-      credentials: credentials,
       method: 'GET',
       headers: {'Content-Type': 'application/json; charset=utf-8'}
     }).then(response => {

@@ -87,21 +87,6 @@ You can check running builds here [https://jenkins.infra.ssbmod.net/job/mod-siri
 These two things are handled by the platform developers for now. This might get automated or will be handled by the application
 developers in the future.
 
-`credentials: 'include'` must be present in Fetch calls for the application to use tokens to talk to other services deployed
-on the platform. Since this will not work when testing locally it is smart to set this per environment:
-
-```
-const credentials = process.env.NODE_ENV === 'production' ? 'include' : 'same-origin'
-
-fetch(url, {
-  credentials: credentials,
-  method: 'GET',
-  headers: {'Content-Type': 'application/json; charset=utf-8'}
-})
-```
-
-`same-origin` is default but it can also be set to `omit`, check [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials).
-
 #### Dockerfile
 [Dockerfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Dockerfile)
 
