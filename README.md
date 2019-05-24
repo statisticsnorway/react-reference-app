@@ -6,7 +6,7 @@ deploy to [BIP](https://github.com/statisticsnorway/platform).
 
 ### What you need
 When creating a React application/library you need the following installed: 
-* JavaScript runtime [Node.js](https://nodejs.org/en/) (Use LTS version)
+* JavaScript runtime [Node.js](https://nodejs.org/en/) (Use Current version)
 * Dependency manager [Yarn](https://yarnpkg.com/en/) (Use Stable version)
 
 Use `yarn create react-app my-app` when creating new applications or libraries (almost everything is then setup for you).
@@ -40,8 +40,8 @@ documentation found [here](https://jestjs.io/docs/en/configuration). Something t
 `index.js`, or files that only use external libraries. Mainly because these types of files do not need to be testet, but also
 because they contribute to inaccurate coverage reporting.
 
-Right now the **Jenkinsfile** runs `yarn test` (line 23) but when we have a conclusion on test coverage minimum for deploys on the platform
-this will be replaced with `yarn coverage` which exits with code 1 if thresholds are not met (those set in `package.json`) and thus
+Right now the **Dockerfile** runs `CI=true yarn test` (line 5) but when we have a conclusion on test coverage minimum for deploys on the platform
+this will be replaced with `CI=true yarn coverage` which exits with code 1 if thresholds are not met (those set in `package.json`) and thus
 will not result in a success on that stage in the pipeline.
 
 Check out the tests written in this application, or in [linked-data-store-client](https://github.com/statisticsnorway/linked-data-store-client/tree/master/src/__tests__), 
@@ -66,7 +66,6 @@ These variables can be accessed through `process.env` like the example in `App.j
 Simply follow the great [documentation](https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables#adding-development-environment-variables-in-env) provided by the React developers.
 
 ### Docker locally
-* `yarn build`
 * `docker build . -t react-reference-app:0.1`
 * `docker run -p 8000:80 react-reference-app:0.1`
 * Navigate to `http://localhost:8000/`
@@ -109,22 +108,14 @@ fetch(url, {
 The reason for copying over our own [nginx.conf](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/nginx.conf) 
 is for it to work with **React Router**.
 
-#### Jenkinsfile
-[Jenkinsfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Jenkinsfile) - Change `DOCKER_IMAGE` name on line 5 to your application name.
-
 **Note:**
-If you are using `react scripts` version `3.0.0` or above, you need to replace `yarn test --no-watch` and `yarn build` on
-lines 23 and 24 with `CI=true yarn test` and `CI=true yarn build` respectivly. This is because `--no-watch` is deprecated 
-and we want the commands to run non-interactivly when dealing with continuous integration. 
+If you are using `react scripts` below version `3.0.0` you need to replace `CI=true yarn test` and `CI=true yarn build` on
+lines 5 and 6 with `yarn test --no-watch` and `yarn build` respectivly. This is because `--no-watch` was deprecated and 
+replaced with `CI=true` in `3.0.0` and we want the commands to run non-interactivly when dealing with continuous integration. 
 Documentation found [here](https://facebook.github.io/create-react-app/docs/running-tests#continuous-integration).
 
-### Things down the line
-* Newer versions of Node.js and Yarn installed on Jenkins (right now we are limited to Node 8.14.0 and Yarn 1.7.0)
-* Multistaging Dockerfiles (needs newer version of Docker on the platform)
-  * This means that things like Yarn and NodeJS will be contained in the docker-image and the build is done when creating 
-    the image, rather than by Jenkins beforehand
-* Runtime environment variables (needs some trixing with Nginx and `window_env_`)
-  * This will the replace `process.env` and enables changing environment variables without needing a new deploy
-* Better integration with Keycloak Gatekeeper so we do not have to refresh the web page (F5) every 5 minutes to 
-  get a working token or have cookie collisions
-  * Or potenitally a totally different way of handling authentication
+The `.dockerignore` file prevents Docker from scanning and copying unnecessary files during building which speeds up
+the process a little, escpecially on Windows.
+
+#### Jenkinsfile
+[Jenkinsfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Jenkinsfile) - Change `DOCKER_IMAGE` name on line 5 to your application name.

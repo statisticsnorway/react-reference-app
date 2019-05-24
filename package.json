@@ -9,15 +9,15 @@
   "dependencies": {
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "react-scripts": "^2.1.5",
+    "react-scripts": "3.0.1",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.86.0"
+    "semantic-ui-react": "^0.87.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --verbose=false",
-    "coverage": "react-scripts test --coverage",
+    "coverage": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -31,7 +31,7 @@
   ],
   "devDependencies": {
     "jest-dom": "^3.1.2",
-    "react-testing-library": "^6.0.0"
+    "react-testing-library": "^7.0.1"
   },
   "jest": {
     "collectCoverageFrom": [
