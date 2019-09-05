@@ -6,7 +6,7 @@ steps:
     image: node:current-alpine 
     commands:
       - yarn install
-      - chmod +x node_modules/.bin/react-scripts
+      - chmod a+x node_modules/.bin/react-scripts
       - yarn coverage
       - yarn build
 
