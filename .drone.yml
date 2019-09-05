@@ -16,7 +16,7 @@ steps:
     commands:
       - whoami 
       - pwd
-      - chmod -R +rwx node_modules/.bin/react-scripts
+      - chmod -R +rx /drone
       - ls -lah node_modules/react-scripts/bin/react-scripts.js
       - ls -lah node_modules/.bin/react-scripts
       - ls -lah /bin/sh
