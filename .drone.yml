@@ -8,7 +8,7 @@ steps:
     settings:
       repo: bip-nullfem/react-reference-app
       registry: eu.gcr.io
-      auto_tag: true
+      tags: "${DRONE_BRANCH}-latest"
       json_key:
         from_secret: gcr_credentials
     when:
