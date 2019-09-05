@@ -16,6 +16,7 @@ steps:
     commands:
       - whoami 
       - chmod +rwx node_modules/.bin/react-scripts
+      - ls -lah ../react-scripts/bin/react-scripts.js
       - ls -lah node_modules/.bin/react-scripts
       - ls -lah /bin/sh
       - yarn coverage
