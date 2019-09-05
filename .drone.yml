@@ -2,13 +2,20 @@ kind: pipeline
 name: react-reference-app
 
 steps:
+  - name: static-code-analysis
+    image: aosapps/drone-sonar-plugin
+    settings:
+      sonar_host:
+        from_secret: sonar_host
+      sonar_token:
+        from_secret: sonar_token
 
   - name: publish-docker
     image: plugins/gcr
     settings:
       repo: bip-nullfem/react-reference-app
       registry: eu.gcr.io
-      tags: "${DRONE_BRANCH}-latest"
+      tags: "${DRONE_BRANCH}-{DRONE_COMMIT_SHA:0:8}"
       json_key:
         from_secret: gcr_credentials
     when:
@@ -23,6 +30,20 @@ steps:
 #      channel: bip-ci-test -- Choosing channel is not enabled yet
     when:
       status: [ success, failure ]
+
+---
+kind: secret
+name: sonar_host
+get:
+  path: drone-sonarqube-configuration
+  name: url
+
+---
+kind: secret
+name: sonar_token
+get:
+  path: drone-sonarqube-configuration
+  name: token
 
 ---
 kind: secret
