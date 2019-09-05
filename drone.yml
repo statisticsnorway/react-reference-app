@@ -12,8 +12,9 @@ steps:
       dockerfile: Dockerfile
       json_key:
         from_secret: gcr_credentials
-      when:
-        branch: drone-setup
+    when:
+      branch:
+      - drone-setup
 
   - name: slack
     image: plugins/slack
