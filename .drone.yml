@@ -15,7 +15,7 @@ steps:
     settings:
       repo: bip-nullfem/react-reference-app
       registry: eu.gcr.io
-      tags: "${DRONE_BRANCH}-{DRONE_COMMIT_SHA:0:8}"
+      tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
       json_key:
         from_secret: gcr_credentials
     when:
