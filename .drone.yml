@@ -6,9 +6,12 @@ steps:
     image: node:current-alpine 
     commands:
       - yarn install
-      - chmod a+x node_modules/.bin/react-scripts
+
+ - name: testandbuild
+    image: node:current-alpine 
+    commands:
       - yarn coverage
-      - yarn build
+      - yarn build      
 
   - name: static-code-analysis
     image: aosapps/drone-sonar-plugin
