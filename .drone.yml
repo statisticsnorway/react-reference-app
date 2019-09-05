@@ -20,7 +20,7 @@ steps:
       - ls -lah node_modules/react-scripts/bin/react-scripts.js
       - ls -lah node_modules/.bin/react-scripts
       - ls -lah /bin/sh
-      - yarn test --coverage
+      - yarn test --coverage --verbose=true
       - yarn build
     when:
       branch:
