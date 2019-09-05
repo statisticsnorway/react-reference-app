@@ -6,8 +6,8 @@ steps:
     image: node:current-alpine 
     commands:
       - yarn install
-      - CI=true yarn coverage
-      - CI=true yarn build
+      - yarn coverage
+      - yarn build
 
   - name: static-code-analysis
     image: aosapps/drone-sonar-plugin
