@@ -15,6 +15,7 @@ steps:
     user: root
     commands:
       - whoami 
+      - pwd
       - chmod -R +rwx node_modules/.bin/react-scripts
       - ls -lah node_modules/react-scripts/bin/react-scripts.js
       - ls -lah node_modules/.bin/react-scripts
