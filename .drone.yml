@@ -6,6 +6,9 @@ steps:
     image: node:current-alpine 
     commands:
       - yarn install
+    when:
+      branch:
+      - drone-setup
 
   - name: testandbuild
     image: node:current-alpine 
@@ -13,7 +16,10 @@ steps:
     commands:
       - chmod +rwx node_modules/.bin/react-scripts
       - yarn coverage
-      - yarn build      
+      - yarn build
+    when:
+      branch:
+      - drone-setup        
 
   - name: static-code-analysis
     image: aosapps/drone-sonar-plugin
