@@ -20,7 +20,7 @@ steps:
     settings:
       webhook:
         from_secret: slack_webhook_url
-      channel: prosjekt_mod_utv
+#      channel: bip-ci-test -- Choosing channel is not enabled yet
     when:
       status: [ success, failure ]
 
@@ -29,7 +29,7 @@ kind: secret
 name: gcr_credentials
 get:
   path: drone-gcr-credentials
-  name: gcr_credentials
+  name: gcr-credentials
 
 ---
 kind: secret
