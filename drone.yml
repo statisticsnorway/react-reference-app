@@ -1,0 +1,39 @@
+kind: pipeline
+name: react-reference-app
+
+steps:
+
+  - name: publish-docker
+    image: plugins/gcr
+    settings:
+      repo: bip-nullfem/react-reference-app
+      registry: eu.gcr.io
+      auto_tag: true
+      dockerfile: Dockerfile
+      json_key:
+        from_secret: gcr_credentials
+      when:
+        branch: drone-setup
+
+  - name: slack
+    image: plugins/slack
+    settings:
+      webhook:
+        from_secret: slack_webhook_url
+      channel: bip-ci-test
+    when:
+      status: [ success, failure ]
+
+---
+kind: secret
+name: gcr_credentials
+get:
+  path: drone-gcr-credentials
+  name: gcr_credentials
+
+---
+kind: secret
+name: slack_webhook_url
+get:
+  path: drone-slack-webhook-url
+  name: slack-webhook-url

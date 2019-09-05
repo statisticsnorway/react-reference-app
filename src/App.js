@@ -11,15 +11,15 @@ class App extends Component {
   }
 
   componentDidMount () {
-    process.env.NODE_ENV !== 'test' && console.log("Environment is: ", process.env)
+    process.env.NODE_ENV !== 'test' && console.log('Environment is: ', process.env)
   }
 
   handleChange = (event, data) => {
-    this.setState({[data.name]: data.value})
+    this.setState({ [data.name]: data.value })
   }
 
   testEndpoint = () => {
-    const {url} = this.state
+    const { url } = this.state
 
     this.setState({
         loading: true,
@@ -34,12 +34,12 @@ class App extends Component {
   }
 
   render () {
-    const {loading, response, url} = this.state
+    const { loading, response, url } = this.state
 
     return (
       <div className='vertical-display'>
         <style>{`body > div,body > div > div, body > div > div > div.vertical-display {height: 100%;}`}</style>
-        <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle'>
+        <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
           <Grid.Column mobile={16} tablet={8} computer={4}>
             <Segment basic>
               <Input
