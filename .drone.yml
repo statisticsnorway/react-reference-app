@@ -14,7 +14,10 @@ steps:
     image: node:current-alpine 
     user: root
     commands:
+      - whoami 
       - chmod +rwx node_modules/.bin/react-scripts
+      - ls -lah node_modules/.bin/react-scripts
+      - ls -lah /bin/sh
       - yarn coverage
       - yarn build
     when:
