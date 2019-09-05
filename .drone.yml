@@ -20,7 +20,7 @@ steps:
     settings:
       webhook:
         from_secret: slack_webhook_url
-      channel: bip-ci-test
+      channel: prosjekt_mod_utv
     when:
       status: [ success, failure ]
 
