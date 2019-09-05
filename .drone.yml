@@ -2,10 +2,10 @@ kind: pipeline
 name: react-reference-app
 
 steps:
-  - name: testandbuild
+  - name: install
     image: node:current-alpine 
-    user: root
     commands:
+      - yarn install
       - whoami 
       - pwd
       - chmod -R +rx /drone 
@@ -16,7 +16,7 @@ steps:
       - yarn build
     when:
       branch:
-      - drone-setup        
+      - drone-setup
 
   - name: static-code-analysis
     image: aosapps/drone-sonar-plugin
