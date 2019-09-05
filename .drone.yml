@@ -2,6 +2,21 @@ kind: pipeline
 name: react-reference-app
 
 steps:
+  - name: install
+    image: node:current-alpine 
+    commands:
+      - yarn install
+      - CI=true yarn coverage
+      - CI=true yarn build
+
+  - name: static-code-analysis
+    image: aosapps/drone-sonar-plugin
+    settings:
+      sonar_host: https://sonarqube.infra.ssbmod.net
+#        from_secret: sonar_host
+      sonar_token:
+        from_secret: sonar_token
+
   - name: publish-docker
     image: plugins/gcr
     settings:
@@ -13,14 +28,6 @@ steps:
     when:
       branch:
       - drone-setup
-
-  - name: static-code-analysis
-    image: aosapps/drone-sonar-plugin
-    settings:
-      sonar_host: https://sonarqube.infra.ssbmod.net
-      #        from_secret: sonar_host
-      sonar_token:
-        from_secret: sonar_token
 
   - name: slack
     image: plugins/slack
