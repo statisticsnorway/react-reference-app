@@ -6,9 +6,7 @@ steps:
     image: node:current-alpine 
     commands:
       - yarn install
-      - chmod a+x /drone/src/node_modules/.bin/react-scripts
-      - chmod a+x /drone/src/node_modules/react-scripts/bin/react-scripts.js
-      - yarn coverage
+      - sudo yarn coverage
       - yarn build
 
   - name: code-analysis
