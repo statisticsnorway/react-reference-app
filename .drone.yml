@@ -9,7 +9,9 @@ steps:
 
   - name: testandbuild
     image: node:current-alpine 
+    user: root
     commands:
+      - chmod +rwx node_modules/.bin/react-scripts
       - yarn coverage
       - yarn build      
 
