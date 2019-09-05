@@ -5,9 +5,11 @@ steps:
   - name: install
     image: node:current-alpine 
     commands:
+      - mkdir app
+      - cd app
       - yarn install
-      - sudo yarn coverage
-      - yarn build
+      - CI=true yarn coverage
+      - CI=true yarn build
 
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
