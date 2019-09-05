@@ -3,10 +3,8 @@ name: react-reference-app
 
 steps:
   - name: install
-    image: node:current-alpine 
+    image: node
     commands:
-      - mkdir app
-      - cd app
       - yarn install
       - CI=true yarn coverage
       - CI=true yarn build
