@@ -9,7 +9,6 @@ steps:
       repo: bip-nullfem/react-reference-app
       registry: eu.gcr.io
       auto_tag: true
-      dockerfile: Dockerfile
       json_key:
         from_secret: gcr_credentials
     when:
