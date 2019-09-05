@@ -2,14 +2,6 @@ kind: pipeline
 name: react-reference-app
 
 steps:
-  - name: install
-    image: node:current-alpine 
-    commands:
-      - yarn install
-    when:
-      branch:
-      - drone-setup
-
   - name: testandbuild
     image: node:current-alpine 
     user: root
@@ -20,7 +12,7 @@ steps:
       - ls -lah node_modules/react-scripts/bin/react-scripts.js
       - ls -lah node_modules/.bin/react-scripts
       - ls -lah /bin/sh
-      - yarn test --coverage --verbose=true
+      - yarn coverage
       - yarn build
     when:
       branch:
