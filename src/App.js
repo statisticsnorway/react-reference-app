@@ -15,7 +15,9 @@ class App extends Component {
   }
 
   handleChange = (event, data) => {
-    this.setState({ [data.name]: data.value })
+    this.setState({   [data.name]: data.value })
+
+
   }
 
   testEndpoint = () => {
