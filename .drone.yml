@@ -2,32 +2,32 @@ kind: pipeline
 name: react-reference-app
 
 steps:
-  - name: install
+  - name: test-and-build
     image: node:current-alpine
     commands:
       - yarn install
       - CI=true yarn coverage
-#      - CI=true yarn build
+      - CI=true yarn build
 
-  - name: code-analysis
-    image: aosapps/drone-sonar-plugin
-    settings:
-      sonar_host: https://sonarqube.infra.ssbmod.net
-#        from_secret: sonar_host
-      sonar_token:
-        from_secret: sonar_token
-
-#  - name: publish-docker
-#    image: plugins/gcr
+#  - name: code-analysis
+#    image: aosapps/drone-sonar-plugin
 #    settings:
-#      repo: bip-nullfem/react-reference-app
-#      registry: eu.gcr.io
-#      tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
-#      json_key:
-#        from_secret: gcr_credentials
-#    when:
-#      branch:
-#      - drone-setup
+#      sonar_host: https://sonarqube.infra.ssbmod.net
+#        from_secret: sonar_host
+#      sonar_token:
+#        from_secret: sonar_token
+
+  - name: publish-docker
+    image: plugins/gcr
+    settings:
+      repo: bip-nullfem/react-reference-app
+      registry: eu.gcr.io
+      tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
+      json_key:
+        from_secret: gcr_credentials
+    when:
+      branch:
+      - drone-setup
 
 #  - name: slack
 #    image: plugins/slack
