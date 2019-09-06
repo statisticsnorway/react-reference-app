@@ -6,6 +6,7 @@ steps:
     image: node:current-alpine
     commands:
       - yarn install
+      - yarn global add sonarqube-scanner
       - CI=true yarn coverage
       - CI=true yarn build
       - sonar-scanner
