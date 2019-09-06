@@ -9,7 +9,7 @@ steps:
       - yarn global add sonarqube-scanner
       - CI=true yarn coverage
       - CI=true yarn build
-      - sonar-scanner
+#      - sonar-scanner
       - ls -lh /root/.sonar/native-sonar-scanner
 
   - name: code-analysis
