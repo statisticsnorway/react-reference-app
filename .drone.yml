@@ -9,7 +9,8 @@ steps:
       - yarn global add sonarqube-scanner
       - CI=true yarn coverage
       - CI=true yarn build
-#      - sonar-scanner
+      - sonar-scanner
+      - ls -lh /root/.sonar/native-sonar-scanner
 
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
@@ -19,26 +20,26 @@ steps:
       sonar_token:
         from_secret: sonar_token
 
-  - name: publish-docker
-    image: plugins/gcr
-    settings:
-      repo: bip-nullfem/react-reference-app
-      registry: eu.gcr.io
-      tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
-      json_key:
-        from_secret: gcr_credentials
-    when:
-      branch:
-      - drone-setup
+#  - name: publish-docker
+#    image: plugins/gcr
+#    settings:
+#      repo: bip-nullfem/react-reference-app
+#      registry: eu.gcr.io
+#      tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
+#      json_key:
+#        from_secret: gcr_credentials
+#    when:
+#      branch:
+#      - drone-setup
 
-  - name: slack
-    image: plugins/slack
-    settings:
-      webhook:
-        from_secret: slack_webhook_url
+#  - name: slack
+#    image: plugins/slack
+#    settings:
+#      webhook:
+#        from_secret: slack_webhook_url
 #      channel: bip-ci-test -- Choosing channel is not enabled yet
-    when:
-      status: [ success, failure ]
+#    when:
+#      status: [ success, failure ]
 
 ---
 kind: secret
