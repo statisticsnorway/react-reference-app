@@ -8,6 +8,7 @@ steps:
       - yarn install
       - CI=true yarn coverage
       - CI=true yarn build
+      - touch magnustest.txt
       - ls -lah
 
 #  - name: code-analysis
