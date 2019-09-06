@@ -5,6 +5,7 @@ steps:
   - name: install
     image: node
     commands:
+      - whoami
       - yarn install
       - CI=true yarn coverage
       - CI=true yarn build
