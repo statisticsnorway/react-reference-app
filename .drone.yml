@@ -14,9 +14,6 @@ steps:
 
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
-    commands:
-      - pwd
-      - ls -la coverage/
     settings:
       sonar_host: https://sonarqube.infra.ssbmod.net
 #        from_secret: sonar_host
