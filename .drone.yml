@@ -9,8 +9,6 @@ steps:
       - yarn install
       - CI=true yarn coverage
       - CI=true yarn build
-      - pwd
-      - ls -la
 
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
