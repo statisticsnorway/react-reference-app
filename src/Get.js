@@ -9,7 +9,6 @@ export const get = (url) => {
       if (response.status === 200) {
         response.json().then(json => {
           console.log(json)
-          console.log(json)
           resolve()
         })
       } else {
