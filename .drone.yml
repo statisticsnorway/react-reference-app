@@ -17,17 +17,17 @@ steps:
       sonar_token:
         from_secret: sonar_token
 
-  - name: publish-docker
-    image: plugins/gcr
-    settings:
-      repo: bip-nullfem/react-reference-app
-      registry: eu.gcr.io
-      tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
-      json_key:
-        from_secret: gcr_credentials
-    when:
-      branch:
-      - drone-setup
+#  - name: publish-docker
+#    image: plugins/gcr
+#    settings:
+#      repo: bip-nullfem/react-reference-app
+#      registry: eu.gcr.io
+#      tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
+#      json_key:
+#        from_secret: gcr_credentials
+#    when:
+#      branch:
+#      - drone-setup
 
   - name: slack
     image: plugins/slack
