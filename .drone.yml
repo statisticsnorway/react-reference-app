@@ -12,7 +12,7 @@ steps:
     image: aosapps/drone-sonar-plugin
     settings:
       sonar_host: https://sonarqube.infra.ssbmod.net
-        from_secret: sonar_host
+#        from_secret: sonar_host
       sonar_token:
         from_secret: sonar_token
 
@@ -33,7 +33,7 @@ steps:
     settings:
       webhook:
         from_secret: slack_webhook_url
-      channel: bip-ci-test -- Choosing channel is not enabled yet
+#      channel: bip-ci-test -- Choosing channel is not enabled yet
     when:
       status: [ success, failure ]
 
