@@ -5,14 +5,13 @@ deploy to [BIP](https://github.com/statisticsnorway/platform).
 **Note:** Everything written here is subject to heavy change during a testing process.
 
 ### What you need
-When creating a React application/library you need the following installed: 
+When creating a React application you need the following installed: 
 * JavaScript runtime [Node.js](https://nodejs.org/en/) (Use Current version)
 * Dependency manager [Yarn](https://yarnpkg.com/en/) (Use Stable version)
 
-Use `yarn create react-app my-app` when creating new applications or libraries (almost everything is then setup for you).
+Use `yarn create react-app my-app` when creating new applications (almost everything is then setup for you).
 Replace `my-app` with the name of your application. Delete the contents of `/src` and start coding!
 
-### Standards
 * Use [standardJS](https://standardjs.com/) for code formatting ([find your text editor plugin](https://standardjs.com/#are-there-text-editor-plugins))
 
 ### Preferred dependencies
@@ -43,6 +42,7 @@ These variables can be accessed through `process.env` like in the `componentDitM
 `yarn test` runs all tests and `yarn coverage` calculates (rather unreliably) test coverage.
 
 ### Docker locally
+* `yarn build`
 * `docker build . -t react-reference-app:0.1`
 * `docker run -p 8000:80 react-reference-app:0.1`
 * Navigate to `http://localhost:8000/`
@@ -57,8 +57,8 @@ documentation found [here](https://jestjs.io/docs/en/configuration). Something t
 `index.js`, or files that only use external libraries. Mainly because these types of files do not need to be testet, but also
 because they contribute to inaccurate coverage reporting.
 
-The **Dockerfile** runs `CI=true yarn coverage` which exits with code 1 if thresholds are not met (those set in `package.json`) and thus
-will not result in a success on that stage in the pipeline.
+`CI=true yarn coverage` exits with code 1 if thresholds are not met (those set in `package.json`) and thus
+will not result in a successful test run.
 
 Check out the tests written in this application, or in [linked-data-store-client](https://github.com/statisticsnorway/linked-data-store-client/tree/develop/src/__tests__), 
 to get you started if you need some ideas.
@@ -70,7 +70,10 @@ Useful for debugging of course.
 Simply follow the great [documentation](https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables#adding-development-environment-variables-in-env) provided by the React developers.
 
 ### Deploying to platform
-// TODO:
+Read about it in [BIPs developer guide](https://github.com/statisticsnorway/ssb-developer-guide/tree/master/documentation#creating-a-build-pipeline-in-drone)
+but in essence the **Dronefile** needs to be configured as per instructed at the bottom of the README. The `publish-docker` step is responsible
+for pushing the image to GCR. Additionally there is a problem with Drone executing `react scripts` so in `package.json` everything
+related to that needs to be swapped out with `node ./node_modules/react-scripts/bin/react-scripts.js`.
 
 You can check running builds here [https://drone.infra.ssbmod.net/](https://drone.infra.ssbmod.net/).
 
@@ -81,8 +84,13 @@ You can check running builds here [https://drone.infra.ssbmod.net/](https://dron
 These two things are handled by the platform developers for now. This might get automated or will be handled by the application
 developers in the future.
 
-#### Dockerfile
-[Dockerfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Dockerfile)
+### SonarQube
+You can include a code analysis in the pipeline by adding the `code-analysis` step. For SonarQube to work properly with JavaScript
+code you need some additional configuration found in the [sonar-project.properties](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/sonar-project.properties) 
+file. `sonar.javascript.exclusions` and `sonar.coverage.exclusions` needs to mirror your settings in the `jest` property in
+`package.json`.
+
+### [Dockerfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Dockerfile)
 
 The reason for copying over our own [nginx.conf](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/nginx.conf) 
 is for it to work with **React Router**.
@@ -93,10 +101,6 @@ with `yarn test --no-watch` and `yarn build` respectivly. This is because `--no-
 replaced with `CI=true` in `3.0.0` and we want the commands to run non-interactivly when dealing with continuous integration. 
 Documentation found [here](https://facebook.github.io/create-react-app/docs/running-tests#continuous-integration).
 
-The `.dockerignore` file prevents Docker from scanning and copying unnecessary files during building which speeds up
-the process a little, escpecially on Windows.
+### [Dronefile (.drone.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/.drone.yml) 
 
-#### Dronefile
-[.drone.yml](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/.drone.yml) 
-
-Change `repo` under `settings` in the `publish-docker` step and swap out the name of the application
+Change `repo` under `settings` in the `publish-docker` step and swap out the name of the application.
