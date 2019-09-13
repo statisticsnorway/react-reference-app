@@ -18,7 +18,7 @@
     "build": "node ./node_modules/react-scripts/bin/react-scripts.js build",
     "test": "node ./node_modules/react-scripts/bin/react-scripts.js test --verbose=false",
     "coverage": "node ./node_modules/react-scripts/bin/react-scripts.js test --coverage --watchAll=false",
-    "eject": "node ./node_modules/react-scripts/bin/react-scripts.js eject"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
