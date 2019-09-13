@@ -5,10 +5,10 @@
 /.idea
 
 # production
-/build
+#/build
 
 # testing
-/coverage
+#/coverage
 
 # misc
 /.git

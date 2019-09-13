@@ -2,17 +2,18 @@ kind: pipeline
 name: react-reference-app
 
 steps:
-  - name: install-and-test
+  - name: install-test-and-build
     image: node:current-alpine
     commands:
       - yarn install
       - CI=true yarn coverage
+      - CI=true yarn build
 
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
     settings:
       sonar_host: https://sonarqube.infra.ssbmod.net
-#        from_secret: sonar_host
+#        from_secret: sonar_host -- Not implemented yet
       sonar_token:
         from_secret: sonar_token
 
