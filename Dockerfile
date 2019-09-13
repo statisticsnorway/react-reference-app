@@ -1,7 +1,12 @@
+FROM node:current-alpine as react-build
+WORKDIR /app
+COPY . ./
+RUN yarn install
+RUN CI=true yarn test
+RUN CI=true yarn build
+
 FROM nginx:alpine
-RUN ls -lah
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY magnustest.txt /usr/share/nginx/html
-COPY build /usr/share/nginx/html
+COPY --from=react-build /app/build /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

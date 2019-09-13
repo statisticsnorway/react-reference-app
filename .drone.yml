@@ -2,22 +2,19 @@ kind: pipeline
 name: react-reference-app
 
 steps:
-  - name: test-and-build
+  - name: install-and-test
     image: node:current-alpine
     commands:
       - yarn install
       - CI=true yarn coverage
-      - CI=true yarn build
-      - touch magnustest.txt
-      - ls -lah
 
-#  - name: code-analysis
-#    image: aosapps/drone-sonar-plugin
-#    settings:
-#      sonar_host: https://sonarqube.infra.ssbmod.net
-#        from_secret: sonar_host
-#      sonar_token:
-#        from_secret: sonar_token
+  - name: code-analysis
+    image: aosapps/drone-sonar-plugin
+    settings:
+      sonar_host: https://sonarqube.infra.ssbmod.net
+        from_secret: sonar_host
+      sonar_token:
+        from_secret: sonar_token
 
   - name: publish-docker
     image: plugins/gcr
@@ -31,14 +28,14 @@ steps:
       branch:
       - drone-setup
 
-#  - name: slack
-#    image: plugins/slack
-#    settings:
-#      webhook:
-#        from_secret: slack_webhook_url
-#      channel: bip-ci-test -- Choosing channel is not enabled yet
-#    when:
-#      status: [ success, failure ]
+  - name: slack
+    image: plugins/slack
+    settings:
+      webhook:
+        from_secret: slack_webhook_url
+      channel: bip-ci-test -- Choosing channel is not enabled yet
+    when:
+      status: [ success, failure ]
 
 ---
 kind: secret
