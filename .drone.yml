@@ -45,9 +45,9 @@ steps:
 #      channel: bip-ci-test -- Choosing channel is not enabled yet
       template: >
         {{#success build.status}}
-          build {{build.number}} succeeded. Good job {{build.author}}!
+          *Success*! {{build.event}} - {{build.link}}. Good job {{build.author}}!
         {{else}}
-          build {{build.number}} failed. Fix me please.
+          *Failure*! {{build.event}} - {{build.link}}.
         {{/success}}
     when:
       status: [ success, failure ]
