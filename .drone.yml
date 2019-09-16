@@ -51,8 +51,11 @@ steps:
         {{/success}}
     when:
       status: [ success, failure ]
-      event:
-        - pull_request
+
+trigger:
+  ref:
+  - refs/heads/master
+  - refs/pull/*/head
 
 ---
 kind: secret
