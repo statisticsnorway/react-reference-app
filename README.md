@@ -34,10 +34,8 @@ The first time you clone the repository, remember to run `yarn install`.
 
 Run `REACT_APP_BACKEND="url here" yarn start` and navigate to `http://localhost:3000/`.
 
-The content of the environment is printed in the browser console when you visit the application page.
-
-**Note** that if you leave out `REACT_APP_BACKEND` it is left out of the environment. There is no limit to how many you can have.
-These variables can be accessed through `process.env` like in the `componentDitMount()` function in `App.js`.
+`REACT_APP_BACKEND` is an environment variable. There is no limit to how many you can have. These variables can be 
+accessed through `process.env` like in the `componentDitMount()` function in `App.js`.
 
 `yarn test` runs all tests and `yarn coverage` calculates (rather unreliably) test coverage.
 
@@ -95,12 +93,12 @@ file. `sonar.javascript.exclusions` and `sonar.coverage.exclusions` needs to mir
 The reason for copying over our own [nginx.conf](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/nginx.conf) 
 is for it to work with **React Router**.
 
-**Note:**
-If you are using `react scripts` below version `3.0.0` you need to replace `CI=true yarn coverage` and `CI=true yarn build` on 
-with `yarn test --no-watch` and `yarn build` respectivly. This is because `--no-watch` was deprecated and 
-replaced with `CI=true` in `3.0.0` and we want the commands to run non-interactivly when dealing with continuous integration. 
-Documentation found [here](https://facebook.github.io/create-react-app/docs/running-tests#continuous-integration).
-
 ### [Dronefile (.drone.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/.drone.yml) 
 
 Change `repo` under `settings` in the `publish-docker` step and swap out the name of the application.
+
+**Note:**
+If you are using `react scripts` below version `3.0.0` you need to replace `CI=true yarn coverage` and `CI=true yarn build` 
+with `yarn test --no-watch` and `yarn build` respectivly. This is because `--no-watch` was deprecated and 
+replaced with `CI=true` in `3.0.0` and we want the commands to run non-interactivly when dealing with continuous integration. 
+Documentation found [here](https://facebook.github.io/create-react-app/docs/running-tests#continuous-integration).
