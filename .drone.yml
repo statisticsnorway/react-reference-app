@@ -45,12 +45,14 @@ steps:
 #      channel: bip-ci-test -- Choosing channel is not enabled yet
       template: >
         {{#success build.status}}
-          *Success*! {{build.event}} - {{build.link}}. Good job {{build.author}}!
+          *Success*! {{uppercasefirst build.event}} - {{build.link}}. Good job *{{build.author}}*!
         {{else}}
-          *Failure*! {{build.event}} - {{build.link}}.
+          *Failure*! {{uppercasefirst build.event}} - {{build.link}}.
         {{/success}}
     when:
       status: [ success, failure ]
+      event:
+        - pull_request
 
 ---
 kind: secret
