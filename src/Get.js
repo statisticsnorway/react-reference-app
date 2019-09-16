@@ -2,7 +2,7 @@ export const get = (url) => {
   return new Promise((resolve) => {
     fetch(url, {
       method: 'GET',
-      headers: {'Content-Type': 'application/json; charset=utf-8'}
+      headers: { 'Content-Type': 'application/json; charset=utf-8' }
     }).then(response => {
       console.log(response)
 
