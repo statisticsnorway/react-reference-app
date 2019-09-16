@@ -11,6 +11,7 @@ steps:
     when:
       event:
         - pull_request
+        - push
 
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
@@ -22,6 +23,7 @@ steps:
     when:
       event:
         - pull_request
+        - push
 
   - name: publish-docker
     image: plugins/gcr
