@@ -8,6 +8,9 @@ steps:
       - yarn install
       - CI=true yarn coverage
       - CI=true yarn build
+    when:
+      event:
+        - pull_request
 
   - name: code-analysis
     image: aosapps/drone-sonar-plugin
@@ -16,6 +19,9 @@ steps:
 #        from_secret: sonar_host -- Not implemented yet
       sonar_token:
         from_secret: sonar_token
+    when:
+      event:
+        - pull_request
 
   - name: publish-docker
     image: plugins/gcr
@@ -37,6 +43,12 @@ steps:
       webhook:
         from_secret: slack_webhook_url
 #      channel: bip-ci-test -- Choosing channel is not enabled yet
+      template: >
+        {{#success build.status}}
+          build {{build.number}} succeeded. Good job {{build.author}}!
+        {{else}}
+          build {{build.number}} failed. Fix me please.
+        {{/success}}
     when:
       status: [ success, failure ]
 
