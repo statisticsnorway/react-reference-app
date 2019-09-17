@@ -68,7 +68,7 @@ Useful for debugging of course.
 Simply follow the great [documentation](https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables#adding-development-environment-variables-in-env) provided by the React developers.
 
 ### Deploying to platform
-Read about it in [BIPs developer guide](https://github.com/statisticsnorway/ssb-developer-guide/tree/master/documentation#creating-a-build-pipeline-in-drone)
+You can read all about it in the [SSB developer guide](https://github.com/statisticsnorway/ssb-developer-guide/blob/master/docs/drone_doc.md),
 but in essence the **Dronefile** needs to be configured as per instructed at the bottom of the README. The `publish-docker` step is responsible
 for pushing the image to GCR. Additionally there is a problem with Drone executing `react scripts` so in `package.json` everything
 related to that needs to be swapped out with `node ./node_modules/react-scripts/bin/react-scripts.js`.
