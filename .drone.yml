@@ -28,7 +28,7 @@ steps:
   - name: publish-docker
     image: plugins/gcr
     settings:
-      repo: bip-nullfem/react-reference-app
+      repo: prod-bip/react-reference-app
       registry: eu.gcr.io
       tags: "${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:8}"
       json_key:
