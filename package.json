@@ -1,6 +1,6 @@
 {
   "name": "react-reference-app",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "repository": {
     "type": "git",
@@ -9,14 +9,14 @@
   "dependencies": {
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "react-scripts": "3.1.1",
+    "react-scripts": "3.1.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "node ./node_modules/react-scripts/bin/react-scripts.js build",
-    "test": "node ./node_modules/react-scripts/bin/react-scripts.js test --verbose=false --watchAll=false",
+    "test": "react-scripts test --verbose=false --watchAll=true",
     "coverage": "node ./node_modules/react-scripts/bin/react-scripts.js test --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },
@@ -36,15 +36,16 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**",
+      "!src/Enums.js",
       "!src/Get.js",
       "!src/index.js"
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 75,
-        "functions": 75,
-        "lines": 75,
-        "statements": 75
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
       }
     }
   }

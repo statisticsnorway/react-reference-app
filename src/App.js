@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
-import { Button, Divider, Grid, Input, Message, Segment } from 'semantic-ui-react'
+import { Button, Container, Divider, Grid, Input, List, Message, Segment } from 'semantic-ui-react'
 
 import { get } from './Get'
+import { TEST, UI } from './Enums'
 
 class App extends Component {
   state = {
     loading: false,
     response: false,
-    url: 'https://reactapp.staging.ssbmod.net/be/lds/ns/Agent?schema'
-  }
-
-  componentDidMount () {
-    process.env.NODE_ENV !== 'test' && console.log('Environment is: ', process.env)
+    url: `${process.env.REACT_APP_LDS}${UI.AGENT_SCHEMA}`
   }
 
   handleChange = (event, data) => {
-    this.setState({ [data.name]: data.value })
+    this.setState({
+      [data.name]: data.value,
+      response: false
+    })
   }
 
   testEndpoint = () => {
@@ -37,36 +37,45 @@ class App extends Component {
     const { loading, response, url } = this.state
 
     return (
-      <div className='vertical-display'>
-        <style>{`body > div,body > div > div, body > div > div > div.vertical-display {height: 100%;}`}</style>
-        <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
-          <Grid.Column mobile={16} tablet={8} computer={4}>
-            <Segment basic>
-              <Input
-                data-testid='input'
-                fluid
-                loading={loading}
-                name='url'
-                onChange={this.handleChange}
-                placeholder='Test endpoint...'
-                size='large'
-                value={url}
-              />
-              {response && <Message content={`Check browser console for response`} info />}
-              <Divider hidden />
-              <Button
-                content={`Test`}
-                color='teal'
-                data-testid='button'
-                disabled={url === ''}
-                icon='call'
-                onClick={this.testEndpoint}
-                size='massive'
-              />
-            </Segment>
-          </Grid.Column>
-        </Grid>
+      <div style={{ display: 'flex', minHeight: '100vh', flexDirection: 'column' }}>
+        <div style={{ flex: 1 }}>
+          <Grid textAlign='center'>
+            <Grid.Column mobile={16} tablet={8} computer={4}>
+              <Segment basic>
+                <Input
+                  data-testid='input'
+                  fluid
+                  loading={loading}
+                  name='url'
+                  onChange={this.handleChange}
+                  placeholder={UI.PLACEHOLDER}
+                  size='large'
+                  value={url}
+                />
+                {response && <Message content={UI.MESSAGE} info />}
+                <Divider hidden />
+                <Button
+                  content={UI.BUTTON}
+                  color='teal'
+                  data-testid={TEST.BUTTON_TEST_ID}
+                  disabled={url === '' || loading}
+                  onClick={this.testEndpoint}
+                  size='massive'
+                />
+              </Segment>
+            </Grid.Column>
+          </Grid>
+        </div>
+        <Container fluid textAlign='center'>
+          <Divider section />
+          <List horizontal divided link size='small'>
+            <List.Item as='a' href={`${process.env.REACT_APP_SOURCE_URL}`} icon={{ fitted: true, name: 'github' }} />
+            <List.Item content={`${UI.VERSION}${process.env.REACT_APP_VERSION}`} />
+          </List>
+          <Divider hidden />
+        </Container>
       </div>
+
     )
   }
 }

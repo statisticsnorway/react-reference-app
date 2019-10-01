@@ -32,17 +32,14 @@ Requires some configuration and bundling with [rollup.js](https://rollupjs.org/g
 ### Try this application locally
 The first time you clone the repository, remember to run `yarn install`.
 
-Run `REACT_APP_BACKEND="url here" yarn start` and navigate to `http://localhost:3000/`.
-
-`REACT_APP_BACKEND` is an environment variable. There is no limit to how many you can have. These variables can be 
-accessed through `process.env` like in the `componentDitMount()` function in `App.js`.
+Run `yarn start` and navigate to `http://localhost:3000/`.
 
 `yarn test` runs all tests and `yarn coverage` calculates (rather unreliably) test coverage.
 
 ### Docker locally
 * `yarn build`
-* `docker build . -t react-reference-app:0.1`
-* `docker run -p 8000:80 react-reference-app:0.1`
+* `docker build -t react-reference-app .`
+* `docker run -p 8000:80 react-reference-app:latest`
 * Navigate to `http://localhost:8000/`
 
 ### Writing tests
@@ -73,7 +70,7 @@ but in essence the **Dronefile** needs to be configured as per instructed at the
 for pushing the image to GCR. Additionally there is a problem with Drone executing `react scripts` so in `package.json` everything
 related to that needs to be swapped out with `node ./node_modules/react-scripts/bin/react-scripts.js`.
 
-You can check running builds here [https://drone.infra.ssbmod.net/](https://drone.infra.ssbmod.net/).
+You can check running builds here [https://drone.prod-bip-ci.ssb.no/](https://drone.prod-bip-ci.ssb.no/).
 
 **Note:**
 * For the deploy to actually happen the application needs a HelmRelease
@@ -85,13 +82,17 @@ developers in the future.
 ### SonarQube
 You can include a code analysis in the pipeline by adding the `code-analysis` step. For SonarQube to work properly with JavaScript
 code you need some additional configuration found in the [sonar-project.properties](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/sonar-project.properties) 
-file. `sonar.javascript.exclusions` and `sonar.coverage.exclusions` needs to mirror your settings in the `jest` property in
-`package.json`.
+file. `sonar.coverage.exclusions` needs to mirror your settings in the `jest` property in `package.json`. Everything else
+set in the file is just standard exclusions.
 
 ### [Dockerfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Dockerfile)
 
 The reason for copying over our own [nginx.conf](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/nginx.conf) 
 is for it to work with **React Router**.
+
+The `/health` endpoint is added so one can check for liveness and readiness of the Nginx serving the application.
+
+For now they are equal but maybe in the future readiness will check for liveness of the applications integration points.
 
 ### [Dronefile (.drone.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/.drone.yml) 
 
