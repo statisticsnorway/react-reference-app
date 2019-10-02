@@ -55,7 +55,8 @@ because they contribute to inaccurate coverage reporting.
 `CI=true yarn coverage` exits with code 1 if thresholds are not met (those set in `package.json`) and thus
 will not result in a successful test run.
 
-Check out the tests written in this application, or in [linked-data-store-client](https://github.com/statisticsnorway/linked-data-store-client/tree/develop/src/__tests__), 
+Check out the tests written in this application, [fe-workbench-ui](https://github.com/statisticsnorway/fe-workbench-ui/tree/develop/src/__tests__) 
+or in [linked-data-store-client](https://github.com/statisticsnorway/linked-data-store-client/tree/develop/src/__tests__), 
 to get you started if you need some ideas.
 
 The `--verbose=false` flag is added to `react scripts test` in `package.json` to enable `console.log()` to work in tests.
@@ -91,7 +92,6 @@ The reason for copying over our own [nginx.conf](https://github.com/statisticsno
 is for it to work with **React Router**.
 
 The `/health` endpoint is added so one can check for liveness and readiness of the Nginx serving the application.
-
 For now they are equal but maybe in the future readiness will check for liveness of the applications integration points.
 
 ### [Dronefile (.drone.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/.drone.yml) 
