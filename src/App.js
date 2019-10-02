@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Container, Divider, Grid, Input, List, Message, Segment } from 'semantic-ui-react'
+import { Button, Container, Divider, Grid, Input, List, Message } from 'semantic-ui-react'
 
 import { get } from './Get'
 import { TEST, UI } from './Enums'
@@ -41,7 +41,8 @@ class App extends Component {
         <div style={{ flex: 1 }}>
           <Grid textAlign='center'>
             <Grid.Column mobile={16} tablet={8} computer={4}>
-              <Segment basic>
+              <>
+                <Divider hidden />
                 <Input
                   data-testid='input'
                   fluid
@@ -62,7 +63,7 @@ class App extends Component {
                   onClick={this.testEndpoint}
                   size='massive'
                 />
-              </Segment>
+              </>
             </Grid.Column>
           </Grid>
         </div>
