@@ -27,7 +27,7 @@ test('App renders correctly', () => {
   expect(getByPlaceholderText(UI.PLACEHOLDER).value).toEqual(`${process.env.REACT_APP_LDS}${UI.AGENT_SCHEMA}`)
   expect(queryAllByText(UI.BUTTON)).toHaveLength(1)
   expect(getByTestId(TEST.BUTTON_TEST_ID)).toBeEnabled()
-  expect(queryAllByText(`${UI.VERSION}${process.env.REACT_APP_VERSION}`)).toHaveLength(1)
+  expect(queryAllByText(`${UI.VERSION}: ${process.env.REACT_APP_VERSION}`)).toHaveLength(1)
 
   fireEvent.change(getByPlaceholderText(UI.PLACEHOLDER), { target: { value: '' } })
 
