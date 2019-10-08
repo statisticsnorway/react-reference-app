@@ -8,5 +8,5 @@ export const UI = {
   BUTTON: 'Test',
   MESSAGE: 'Check browser console for response',
   PLACEHOLDER: 'Test endpoint...',
-  VERSION: 'Version: '
+  VERSION: 'Version'
 }
