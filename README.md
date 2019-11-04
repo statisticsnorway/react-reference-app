@@ -89,8 +89,12 @@ code you need some additional configuration found in the [sonar-project.properti
 file. `sonar.coverage.exclusions` needs to mirror your settings in the `jest` property in `package.json`. Everything else
 set in the file is just standard exclusions.
 
-### [Dockerfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Dockerfile)
+**Note** that our experience with SonarQube so far has been a mixed bag. It provides some very nifty information about our code
+and detects code smells and bugs rather accuratly and displays it in a nice UI. However, configurating SonarQube to correctly 
+exclude certain files from coverage calculation has proven rather difficult. The step in the pipeline is also rather slow
+for no understandable reason.
 
+### [Dockerfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Dockerfile)
 The reason for copying over our own [nginx.conf](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/nginx.conf) 
 is for it to work with **React Router**.
 
@@ -98,5 +102,14 @@ The `/health` endpoint is added so one can check for liveness and readiness of t
 For now they are equal but maybe in the future readiness will check for liveness of the applications integration points.
 
 ### [Dronefile (.drone.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/.drone.yml) 
+We try to make use of caching and parallelism in our Drone piplelines. The setup should be fairly easy by just following this
+applications `.drone.yml` structure and replacing this applications name with your applications name where applicable.
 
-More to come...
+In essence we create a cache of the `node_modules` folder each time a pipeline is ran and also update the cache if nessecary.
+Every 14th day the cache is flushed and rebuilt. So far we have seen upwards of 1 minute shorter pipelines by caching dependencies.
+
+In addition to this we run steps which are not dependent on eachother in parallel through the `depends_on` attribute. So far this
+has contributed to between 10 and 30 seconds shorter pipelines.
+
+Again you can check [SSB developer guide](https://github.com/statisticsnorway/ssb-developer-guide/blob/master/docs/drone_doc.md)
+for more information.
