@@ -3,14 +3,14 @@ name: react-reference-app
 
 steps:
   - name: restore-cache
-      image: homerovalle/drone-gcs-cache
-      settings:
-        pull: true
-        bucket: bip-drone-dependency-cache
-        path: bip-drone-dependency-cache/statisticsnorway/fe-react-reference-app
-        json_key:
-          from_secret: gcr_credentials
-        restore: true
+    image: homerovalle/drone-gcs-cache
+    settings:
+      pull: true
+      bucket: bip-drone-dependency-cache
+      path: bip-drone-dependency-cache/statisticsnorway/fe-react-reference-app
+      json_key:
+        from_secret: gcr_credentials
+      restore: true
 
   - name: install
     image: node:current-alpine
