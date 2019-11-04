@@ -24,7 +24,7 @@ steps:
       - restore-cache
 
   - name: rebuild-cache
-    image: hoerovalle/drone-gcs-cache
+    image: homerovalle/drone-gcs-cache
     settings:
       pull: true
       bucket: bip-drone-dependency-cache
