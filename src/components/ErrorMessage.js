@@ -8,7 +8,7 @@ const getNestedObject = (nestedObject, pathArray) => {
   )
 }
 
-function Error ({ error }) {
+function ErrorMessage ({ error }) {
   const resolveError = getNestedObject(error, ['response', 'data'])
 
   return (
@@ -16,4 +16,4 @@ function Error ({ error }) {
   )
 }
 
-export default Error
+export default ErrorMessage

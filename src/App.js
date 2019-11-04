@@ -3,7 +3,7 @@ import useAxios from 'axios-hooks'
 import { Button, Divider, Grid, Input } from 'semantic-ui-react'
 
 import { TEST, UI } from './enums'
-import { Error, Footer } from './components/'
+import { ErrorMessage, Footer } from './components/'
 
 function App () {
   const [url, setUrl] = useState(`${process.env.REACT_APP_LDS}${UI.AGENT_SCHEMA}`)
@@ -38,7 +38,7 @@ function App () {
               {data && !loading && !error &&
               <pre style={{ whiteSpace: 'normal' }}>{JSON.stringify(data, null, 2)}</pre>
               }
-              {error && <Error error={error} />}
+              {error && <ErrorMessage error={error} />}
             </>
           </Grid.Column>
         </Grid>

@@ -11,6 +11,10 @@ steps:
       json_key:
         from_secret: gcr_credentials
       restore: true
+    when:
+      event:
+        - pull_request
+        - push
 
   - name: install
     image: node:current-alpine
@@ -34,10 +38,10 @@ steps:
       rebuild: true
       mount:
         - node_modules
-      when:
-        event:
-          - pull_request
-          - push
+    when:
+      event:
+        - pull_request
+        - push
     depends_on:
       - install
 
@@ -92,8 +96,7 @@ steps:
         - pull_request
         - push
     depends_on:
-      - test
-      - build
+      - rebuild-cache
 
   - name: publish-docker
     image: plugins/gcr

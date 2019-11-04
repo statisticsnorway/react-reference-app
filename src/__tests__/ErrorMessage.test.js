@@ -1,14 +1,14 @@
 import React from 'react'
 import { cleanup, render } from '@testing-library/react'
 
-import { Error } from '../components'
+import { ErrorMessage } from '../components'
 
 afterEach(() => {
   cleanup()
 })
 
 const setup = (error) => {
-  const { queryAllByText } = render(<Error error={error} />)
+  const { queryAllByText } = render(<ErrorMessage error={error} />)
 
   return { queryAllByText }
 }
