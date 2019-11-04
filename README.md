@@ -1,4 +1,6 @@
 # react-reference-app
+[![Build Status](https://drone.prod-bip-ci.ssb.no/api/badges/statisticsnorway/fe-react-reference-app/status.svg)](https://drone.prod-bip-ci.ssb.no/statisticsnorway/fe-react-reference-app)
+
 This application, and its documentation, should be used as a reference when creating new React applications that you want to 
 deploy to [BIP](https://github.com/statisticsnorway/platform).
 
