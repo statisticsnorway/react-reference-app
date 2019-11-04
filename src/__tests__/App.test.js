@@ -3,7 +3,7 @@ import { toBeDisabled, toBeEnabled } from '@testing-library/jest-dom'
 import { cleanup, fireEvent, render } from '@testing-library/react'
 
 import App from '../App'
-import { TEST, UI } from '../Enums'
+import { TEST, UI } from '../enums'
 
 expect.extend({ toBeDisabled, toBeEnabled })
 
