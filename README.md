@@ -14,7 +14,7 @@ Replace `my-app` with the name of your application.
 
 * Use [standardJS](https://standardjs.com/) for code formatting ([find your text editor plugin](https://standardjs.com/#are-there-text-editor-plugins))
 
-### Preferred dependencies
+### Preferred dependencies (tips)
 * When working with JavaScript date objects, use [date-fns](https://date-fns.org/)
   * A great datepicker component is [ReactJS Datepicker](https://reactdatepicker.com/)
 * When working with routes in your application, use [React Router](https://reacttraining.com/react-router/web/guides/quick-start)
@@ -25,9 +25,9 @@ Replace `my-app` with the name of your application.
 * When writing tests, use [Jest](https://jestjs.io/en/) (comes pre-installed when creating application) and [React Testing Library](https://testing-library.com/react)
   * If you need more matchers than Jest offers, use [jest-dom](https://github.com/gnapse/jest-dom)
 * Need a simple GraphQL client? Check out [graphql-request](https://github.com/prisma/graphql-request)
-  * Alternatively a more rich hooks variant [graphql-hooks](https://github.com/nearform/graphql-hooks)
+  * Alternatively try a more rich hooks variant [graphql-hooks](https://github.com/nearform/graphql-hooks)
 
-### Create library
+### React application as a library
 Requires some configuration and bundling with [rollup.js](https://rollupjs.org/guide/en).
 
 ### Try this application locally
@@ -45,13 +45,13 @@ Run `yarn start` and navigate to `http://localhost:3000/`.
 
 ### Writing tests
 Easy to follow guides for **Jest** are located [here](https://jestjs.io/docs/en/tutorial-react) and if you need to test
-DOM manipulation use **React Testing Library**, guides found [here](https://testing-library.com/docs/react-testing-library/intro). 
+DOM manipulation, use **React Testing Library** (guides found [here](https://testing-library.com/docs/react-testing-library/intro)). 
 The `debug` property exposed by **React Testing Library** is very useful so do yourself a favor and check that out!
 
 Test coverage thresholds and other options can be configured in the `jest` object in [package.json](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/package.json),
 documentation found [here](https://jestjs.io/docs/en/configuration). Something to keep in mind would be to exclude files like 
 `index.js`, or files that only use external libraries. Mainly because these types of files do not need to be testet, but also
-because they contribute to inaccurate coverage reporting.
+because they may contribute to inaccurate coverage reporting.
 
 `CI=true yarn coverage` exits with code 1 if thresholds are not met (those set in `package.json`) and thus
 will not result in a successful test run.
@@ -60,8 +60,8 @@ Check out the tests written in this application, [fe-workbench-ui](https://githu
 or in [linked-data-store-client](https://github.com/statisticsnorway/linked-data-store-client/tree/develop/src/__tests__), 
 to get you started if you need some ideas.
 
-The `--verbose=false` flag is added to `react scripts test` in `package.json` to enable `console.log()` to work in tests.
-Useful for debugging of course.
+The `--verbose=false` flag is added to `react scripts test` in `package.json` to enable `console.log()` to work in tests
+(this bug might have been fixed). Useful for debugging of course.
 
 ### Environment variables
 Simply follow the great [documentation](https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables#adding-development-environment-variables-in-env) provided by the React developers.
