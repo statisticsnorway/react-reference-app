@@ -91,6 +91,9 @@ steps:
       event:
         - pull_request
         - push
+    depends_on:
+      - test
+      - build
 
   - name: publish-docker
     image: plugins/gcr
@@ -123,6 +126,9 @@ steps:
         {{/success}}
     when:
       status: [ success, failure ]
+    depends_on:
+      - test
+      - build
 
 trigger:
   ref:
