@@ -1,12 +1,14 @@
 {
   "name": "react-reference-app",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/statisticsnorway/fe-react-reference-app"
   },
   "dependencies": {
+    "axios": "^0.19.0",
+    "axios-hooks": "^1.6.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-scripts": "3.2.0",
@@ -23,12 +25,18 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^9.1.4"
@@ -36,13 +44,11 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**",
-      "!src/Enums.js",
-      "!src/Get.js",
       "!src/index.js"
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 100,
+        "branches": 70,
         "functions": 100,
         "lines": 100,
         "statements": 100

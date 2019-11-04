@@ -10,7 +10,7 @@ When creating a React application you need the following installed:
 * Dependency manager [Yarn](https://yarnpkg.com/en/) (Use Stable version)
 
 Use `yarn create react-app my-app` when creating new applications (almost everything is then setup for you).
-Replace `my-app` with the name of your application. Delete the contents of `/src` and start coding!
+Replace `my-app` with the name of your application.
 
 * Use [standardJS](https://standardjs.com/) for code formatting ([find your text editor plugin](https://standardjs.com/#are-there-text-editor-plugins))
 
@@ -20,11 +20,12 @@ Replace `my-app` with the name of your application. Delete the contents of `/src
 * When working with routes in your application, use [React Router](https://reacttraining.com/react-router/web/guides/quick-start)
 * When styling the UI, use [Semantic UI React](https://react.semantic-ui.com/)
   * If you need a table component with more functions built-in than the one Semantic UI offers, use [React Table](https://github.com/tannerlinsley/react-table)
-* When working with http-requests, use the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+* When working with http-requests, use [axios](https://github.com/axios/axios) and [axios-hooks](https://github.com/simoneb/axios-hooks)
 * Need to generate valid RFC UUIDs? Use [uuid](https://github.com/kelektiv/node-uuid)
 * When writing tests, use [Jest](https://jestjs.io/en/) (comes pre-installed when creating application) and [React Testing Library](https://testing-library.com/react)
   * If you need more matchers than Jest offers, use [jest-dom](https://github.com/gnapse/jest-dom)
 * Need a simple GraphQL client? Check out [graphql-request](https://github.com/prisma/graphql-request)
+  * Alternatively a more rich hooks variant [graphql-hooks](https://github.com/nearform/graphql-hooks)
 
 ### Create library
 Requires some configuration and bundling with [rollup.js](https://rollupjs.org/guide/en).
@@ -96,10 +97,4 @@ For now they are equal but maybe in the future readiness will check for liveness
 
 ### [Dronefile (.drone.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/.drone.yml) 
 
-Change `repo` under `settings` in the `publish-docker` step and swap out the name of the application.
-
-**Note:**
-If you are using `react scripts` below version `3.0.0` you need to replace `CI=true yarn coverage` and `CI=true yarn build` 
-with `yarn test --no-watch` and `yarn build` respectivly. This is because `--no-watch` was deprecated and 
-replaced with `CI=true` in `3.0.0` and we want the commands to run non-interactivly when dealing with continuous integration. 
-Documentation found [here](https://facebook.github.io/create-react-app/docs/running-tests#continuous-integration).
+More to come...
