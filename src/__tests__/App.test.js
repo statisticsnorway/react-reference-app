@@ -1,35 +1,45 @@
 import React from 'react'
-import { toBeDisabled, toBeEnabled } from '@testing-library/jest-dom'
-import { cleanup, fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import useAxios from 'axios-hooks'
 
 import App from '../App'
-import { TEST, UI } from '../enums'
+import { UI } from '../enums'
+import userEvent from '@testing-library/user-event'
 
-expect.extend({ toBeDisabled, toBeEnabled })
-
-afterEach(() => {
-  cleanup()
-})
+const refetch = jest.fn()
+const errorString = 'A problem occured'
+const errorObject = { response: { data: errorString } }
+const testDataObject = { data: 'Some data' }
+const testDataString = '{ \"data\": \"Some data\" }'
 
 const setup = () => {
-  const { getByPlaceholderText, getByTestId, queryAllByText } = render(<App />)
+  const { getByPlaceholderText, getByText } = render(<App />)
 
-  return { getByPlaceholderText, getByTestId, queryAllByText }
+  return { getByPlaceholderText, getByText }
 }
 
 test('App renders correctly', () => {
-  const { getByPlaceholderText, queryAllByText } = setup()
+  useAxios.mockReturnValue([{ data: undefined, loading: false, error: null }, refetch])
+  const { getByPlaceholderText, getByText } = setup()
 
   expect(getByPlaceholderText(UI.PLACEHOLDER).value).toEqual(`${process.env.REACT_APP_LDS}${UI.AGENT_SCHEMA}`)
-  expect(queryAllByText(`${UI.VERSION}: ${process.env.REACT_APP_VERSION}`)).toHaveLength(1)
+  expect(getByText(`${UI.VERSION}: ${process.env.REACT_APP_VERSION}`)).toBeInTheDocument()
 })
 
-test('Button is disabled with empty value', () => {
-  const { getByPlaceholderText, getByTestId } = setup()
+test('App renders with response from backend', () => {
+  useAxios.mockReturnValue([{ data: testDataObject, loading: false, error: null }, refetch])
+  const { getByPlaceholderText, getByText } = setup()
 
-  expect(getByTestId(TEST.BUTTON_TEST_ID)).toBeEnabled()
+  userEvent.type(getByPlaceholderText(UI.PLACEHOLDER), '/')
 
-  fireEvent.change(getByPlaceholderText(UI.PLACEHOLDER), { target: { value: '' } })
+  expect(getByText(testDataString)).toBeInTheDocument()
+  expect(useAxios).toHaveBeenNthCalledWith(3, 'http://localhost:9090/ns/Agent?schema/', { 'manual': true })
+})
 
-  expect(getByTestId(TEST.BUTTON_TEST_ID)).toBeDisabled()
+test('Renders error when backend call returns error', () => {
+  useAxios.mockReturnValue([{ data: undefined, loading: false, error: errorObject }, refetch])
+  const { getByText } = setup()
+
+  expect(getByText(UI.ERROR_HEADER))
+  expect(getByText(errorString)).toBeInTheDocument()
 })

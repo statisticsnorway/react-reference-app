@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import useAxios from 'axios-hooks'
 import { Button, Divider, Grid, Input } from 'semantic-ui-react'
 
-import { TEST, UI } from './enums'
+import { UI } from './enums'
 import { ErrorMessage, Footer } from './components/'
 
 function App () {
@@ -17,27 +17,23 @@ function App () {
             <>
               <Divider hidden />
               <Input
-                data-testid={TEST.INPUT_TEST_ID}
                 fluid
-                loading={loading}
-                onChange={(event) => setUrl(event.target.value)}
-                placeholder={UI.PLACEHOLDER}
-                size='large'
                 value={url}
+                size='large'
+                loading={loading}
+                placeholder={UI.PLACEHOLDER}
+                onChange={(event, { value }) => setUrl(value)}
               />
               <Divider hidden />
               <Button
-                content={UI.BUTTON}
                 color='teal'
-                data-testid={TEST.BUTTON_TEST_ID}
-                disabled={url === '' || loading}
-                onClick={refetch}
                 size='massive'
+                onClick={refetch}
+                content={UI.BUTTON}
+                disabled={url === '' || loading}
               />
               <Divider hidden />
-              {data && !loading && !error &&
-              <pre style={{ whiteSpace: 'normal' }}>{JSON.stringify(data, null, 2)}</pre>
-              }
+              {data && !loading && !error && <pre>{JSON.stringify(data, null, 2)}</pre>}
               {error && <ErrorMessage error={error} />}
             </>
           </Grid.Column>
