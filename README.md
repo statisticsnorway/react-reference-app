@@ -58,15 +58,18 @@ because they may contribute to inaccurate coverage reporting.
 `CI=true yarn coverage` exits with code 1 if thresholds are not met (those set in `package.json`) and thus
 will not result in a successful test run.
 
-Check out the tests written in this application, [fe-workbench-ui](https://github.com/statisticsnorway/fe-workbench-ui/tree/develop/src/__tests__) 
-or in [linked-data-store-client](https://github.com/statisticsnorway/linked-data-store-client/tree/develop/src/__tests__), 
+Check out the tests written in this application, [variable-search](https://github.com/statisticsnorway/variable-search/tree/master/src/__tests__),
+[user-access-admin](https://github.com/statisticsnorway/user-access-admin/tree/master/src/__tests__)
+or in [linked-data-store-client](https://github.com/statisticsnorway/linked-data-store-client/tree/master/src/__tests__), 
 to get you started if you need some ideas.
 
-The `--verbose=false` flag is added to `react scripts test` in `package.json` to enable `console.log()` to work in tests
-(this bug might have been fixed). Useful for debugging of course.
-
 ### Environment variables
-Simply follow the great [documentation](https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables#adding-development-environment-variables-in-env) provided by the React developers.
+Simply follow the great [documentation](https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables#adding-development-environment-variables-in-env) 
+provided by the React developers.
+
+### Runtime environment variables
+There is [documentation](https://create-react-app.dev/docs/title-and-meta-tags/#injecting-data-from-the-server-into-the-page)
+on this and even an [importable component](https://github.com/beam-australia/react-env) which you can try out.
 
 ### Deploying to platform
 You can read all about it in the [SSB developer guide](https://github.com/statisticsnorway/ssb-developer-guide/blob/master/docs/drone_doc.md),
@@ -81,7 +84,8 @@ You can check running builds here [https://drone.prod-bip-ci.ssb.no/](https://dr
 * To expose your application on the internet you need to add a VirtualService
 
 These two things are handled by the platform developers for now. This might get automated or will be handled by the application
-developers in the future.
+developers in the future. However, this is somewhat doable by yourself now by adding the application to our `platform-dev` 
+repository, so you can either check the docs in that repository or ask a fellow collegue for help.
 
 ### SonarQube
 You can include a code analysis in the pipeline by adding the `code-analysis` step. For SonarQube to work properly with JavaScript
