@@ -1,0 +1,27 @@
+name: $(Build.SourceBranch)-$(date:yyyyMMdd)$(rev:.r)
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - group: Hemmeligheter
+  - name: fullSha
+    value: '$(Build.SourceVersion)'
+  - name: imageName
+    value: 'eu.gcr.io/prod-bip/react-reference-app'
+  - name: repoName
+    value: 'prod-bip/react-reference-app'
+  - name: NODE_CACHE_FOLDER
+    value: $(Pipeline.Workspace)/node_modules
+
+jobs:
+  - job: installApplication
+    displayName: 'Install dependencies for the Application'
+    condition: always()
+    steps:
+      - task: YarnInstall
+        displayName: 'Run yarn install'
+        
