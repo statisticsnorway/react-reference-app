@@ -7,21 +7,30 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  - group: Hemmeligheter
   - name: fullSha
     value: '$(Build.SourceVersion)'
   - name: imageName
-    value: 'eu.gcr.io/prod-bip/react-reference-app'
-  - name: repoName
-    value: 'prod-bip/react-reference-app'
-  - name: NODE_CACHE_FOLDER
-    value: $(Pipeline.Workspace)/node_modules
+    value: 'eu.gcr.io/prod-bip/ssb/dapla/react-reference-app'
 
 jobs:
   - job: installApplication
     displayName: 'Install dependencies for the Application'
-    condition: always()
     steps:
-      - task: YarnInstall
-        displayName: 'Run yarn install'
-        
+      - script: 'yarn install'
+      - script: 'CI=true yarn coverage'
+      - script: 'CI=true yarn build'
+      - task: Docker@2
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        displayName: 'Login to GCR'
+        inputs:
+          command: login
+          containerRegistry: gcrServiceConnection
+      - task: Docker@2
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        inputs:
+          containerRegistry: 'gcrServiceConnection'
+          repository: '$(imageName)'
+          command: 'buildAndPush'
+          Dockerfile: 'Dockerfile'
+          buildContext: 
+          tags: '$(Build.SourceBranchName)-imagescan-$(fullSha)'
