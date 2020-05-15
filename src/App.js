@@ -33,7 +33,9 @@ function App () {
                 disabled={url === '' || loading}
               />
               <Divider hidden />
-              {data && !loading && !error && <pre>{JSON.stringify(data, null, 2)}</pre>}
+              {data && !loading && !error &&
+              <pre style={{ whiteSpace: 'normal' }}>{JSON.stringify(data, null, 2)}</pre>
+              }
               {error && <ErrorMessage error={error} />}
             </>
           </Grid.Column>

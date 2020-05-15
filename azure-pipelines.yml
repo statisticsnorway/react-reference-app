@@ -1,0 +1,36 @@
+name: $(Build.SourceBranch)-$(date:yyyyMMdd)$(rev:.r)
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - name: fullSha
+    value: '$(Build.SourceVersion)'
+  - name: imageName
+    value: 'eu.gcr.io/prod-bip/ssb/dapla/react-reference-app'
+
+jobs:
+  - job: installApplication
+    displayName: 'Install dependencies for the Application'
+    steps:
+      - script: 'yarn install'
+      - script: 'CI=true yarn coverage'
+      - script: 'CI=true yarn build'
+      - task: Docker@2
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        displayName: 'Login to GCR'
+        inputs:
+          command: login
+          containerRegistry: gcrServiceConnection
+      - task: Docker@2
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        inputs:
+          containerRegistry: 'gcrServiceConnection'
+          repository: '$(imageName)'
+          command: 'buildAndPush'
+          Dockerfile: 'Dockerfile'
+          buildContext: 
+          tags: '$(Build.SourceBranchName)-imagescan-$(fullSha)'
