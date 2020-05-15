@@ -12,7 +12,7 @@ variables:
   - name: fullSha
     value: '$(Build.SourceVersion)'
   - name: imageName
-    value: 'eu.gcr.io/prod-bip/ssb/dapla/react-reference-app'
+    value: 'prod-bip/ssb/dapla/react-reference-app'
 
 jobs:
   - job: installApplication
