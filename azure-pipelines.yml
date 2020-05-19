@@ -34,7 +34,7 @@ jobs:
       - script: 'CI=true yarn build'
   - job: analyzeCode
     displayName: 'Run code analysis'
-    depensOn: testApplication
+    dependsOn: testApplication
     condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
     steps:
       - task: SonarQubePrepare@4
