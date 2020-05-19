@@ -75,7 +75,8 @@ on this and even an [importable component](https://github.com/beam-australia/rea
 ### Deployment
 You can read all about it in the [SSB developer guide](https://github.com/statisticsnorway/ssb-developer-guide/blob/master/docs/azure_pipeline_doc.md),
 but in essence the `.azure-pipelines.yml` file needs to be configured as per instructed at the bottom of the README. 
-The `buildAndPush` job is responsible for pushing the image to GCR.
+The `buildAndPush` job is responsible for pushing the image to GCR. Additionally there is a problem with Azure Pipelines executing 
+`react scripts`, so in `package.json` everything related to that needs to be replaced with `node ./node_modules/react-scripts/bin/react-scripts.js`.
 
 You can check running builds here [https://dev.azure.com/statisticsnorway/Dapla](https://dev.azure.com/statisticsnorway/Dapla).
 
