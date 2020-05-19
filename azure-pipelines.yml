@@ -9,18 +9,46 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
+  - group: Hemmeligheter
   - name: fullSha
     value: '$(Build.SourceVersion)'
   - name: imageName
     value: 'prod-bip/ssb/dapla/react-reference-app'
 
 jobs:
-  - job: installApplication
-    displayName: 'Install dependencies for the Application'
+  - job: getDependencies
+    displayName: 'Get application dependencies'
     steps:
       - script: 'yarn install'
+  - job: testApplication
+    displayName: 'Run test and coverage reporting'
+    dependsOn: getDependencies
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+    steps:
       - script: 'CI=true yarn coverage'
+  - job: buildApplication
+    displayName: 'Build Application'
+    dependsOn: getDependencies
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    steps:
       - script: 'CI=true yarn build'
+  - job: analyzeCode
+    displayName: 'Run code analysis'
+    depensOn: testApplication
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+    steps:
+      - task: SonarQubePrepare@4
+        inputs:
+          SonarQube: 'bipSonarQube'
+          scannerMode: 'CLI'
+          configMode: 'manual'
+          cliProjectKey: '$(SONAR_TOKEN)'
+          cliSources: '.'
+      - task: SonarQubeAnalyze@4
+  - job: buildAndPushDocker
+    displayName: 'Build and push Docker image'
+    dependsOn: buildApplication
+    steps:
       - task: Docker@2
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         displayName: 'Login to GCR'
@@ -34,5 +62,4 @@ jobs:
           repository: '$(imageName)'
           command: 'buildAndPush'
           Dockerfile: 'Dockerfile'
-          buildContext: 
           tags: '$(Build.SourceBranchName)-imagescan-$(fullSha)'

@@ -1,5 +1,6 @@
 # react-reference-app
-[![Build Status](https://drone.prod-bip-ci.ssb.no/api/badges/statisticsnorway/fe-react-reference-app/status.svg)](https://drone.prod-bip-ci.ssb.no/statisticsnorway/fe-react-reference-app)
+[![Build Status](https://dev.azure.com/statisticsnorway/Dapla/_apis/build/status/Frontends/statisticsnorway.fe-react-reference-app?branchName=master)](https://dev.azure.com/statisticsnorway/Dapla/_build/latest?definitionId=6&branchName=master)
+[![Coverage](https://sonarqube.prod-bip-ci.ssb.no/api/project_badges/measure?project=statisticsnorway%3Afe-react-reference-app&metric=coverage)](https://sonarqube.prod-bip-ci.ssb.no/dashboard?id=statisticsnorway%3Afe-react-reference-app)
 
 This application, and its documentation, should be used as a reference when creating new React applications that you want to 
 deploy to [BIP](https://github.com/statisticsnorway/platform).
@@ -71,13 +72,12 @@ provided by the React developers.
 There is [documentation](https://create-react-app.dev/docs/title-and-meta-tags/#injecting-data-from-the-server-into-the-page)
 on this and even an [importable component](https://github.com/beam-australia/react-env) which you can try out.
 
-### Deploying to platform
-You can read all about it in the [SSB developer guide](https://github.com/statisticsnorway/ssb-developer-guide/blob/master/docs/drone_doc.md),
-but in essence the **Dronefile** needs to be configured as per instructed at the bottom of the README. The `publish-docker` step is responsible
-for pushing the image to GCR. Additionally there is a problem with Drone executing `react scripts` so in `package.json` everything
-related to that needs to be swapped out with `node ./node_modules/react-scripts/bin/react-scripts.js`.
+### Deployment
+You can read all about it in the [SSB developer guide](https://github.com/statisticsnorway/ssb-developer-guide/blob/master/docs/azure_pipeline_doc.md),
+but in essence the `.azure-pipelines.yml` file needs to be configured as per instructed at the bottom of the README. 
+The `buildAndPush` job is responsible for pushing the image to GCR.
 
-You can check running builds here [https://drone.prod-bip-ci.ssb.no/](https://drone.prod-bip-ci.ssb.no/).
+You can check running builds here [https://dev.azure.com/statisticsnorway/Dapla](https://dev.azure.com/statisticsnorway/Dapla).
 
 **Note:**
 * For the deploy to actually happen the application needs a HelmRelease
@@ -88,7 +88,7 @@ developers in the future. However, this is somewhat doable by yourself now by ad
 repository, so you can either check the docs in that repository or ask a fellow collegue for help.
 
 ### SonarQube
-You can include a code analysis in the pipeline by adding the `code-analysis` step. For SonarQube to work properly with JavaScript
+You can include a code analysis in the pipeline by adding the `analyzeCode` job. For SonarQube to work properly with JavaScript
 code you need some additional configuration found in the [sonar-project.properties](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/sonar-project.properties) 
 file. `sonar.coverage.exclusions` needs to mirror your settings in the `jest` property in `package.json`. Everything else
 set in the file is just standard exclusions.
@@ -100,20 +100,17 @@ for no understandable reason.
 
 ### [Dockerfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Dockerfile)
 The reason for copying over our own [nginx.conf](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/nginx.conf) 
-is for it to work with **React Router**.
+is for it to work with **React Router** among other things.
 
 The `/health` endpoint is added so one can check for liveness and readiness of the Nginx serving the application.
 For now they are equal but maybe in the future readiness will check for liveness of the applications integration points.
 
-### [Dronefile (.drone.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/.drone.yml) 
-We try to make use of caching and parallelism in our Drone piplelines. The setup should be fairly easy by just following this
-applications `.drone.yml` structure and replacing this applications name with your applications name where applicable.
+### [Azure Pipelines (.azure-pipelines.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/.drone.yml) 
+We try to make use of caching and parallelism in our Azure Piplelines. The setup should be fairly easy by just following this
+applications `.azure-pipelines.yml` structure and remember to replace this applications name with your applications name where applicable.
 
 In essence we create a cache of the `node_modules` folder each time a pipeline is ran and also update the cache if nessecary.
-Every 14th day the cache is flushed and rebuilt. So far we have seen upwards of 1 minute shorter pipelines by caching dependencies.
+So far we have seen upwards of 1 minute shorter pipelines by caching dependencies.
 
-In addition to this we run steps which are not dependent on eachother in parallel through the `depends_on` attribute. So far this
+In addition to this we run steps which are not dependent on eachother in parallel through the `dependsOn` property. So far this
 has contributed to between 10 and 30 seconds shorter pipelines.
-
-Again you can check [SSB developer guide](https://github.com/statisticsnorway/ssb-developer-guide/blob/master/docs/drone_doc.md)
-for more information.
