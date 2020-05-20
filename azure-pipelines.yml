@@ -5,9 +5,6 @@ trigger:
     include:
       - master
 
-pool:
-  vmImage: 'ubuntu-latest'
-
 variables:
   - group: Hemmeligheter
   - name: fullSha
@@ -15,12 +12,26 @@ variables:
   - name: imageName
     value: 'prod-bip/ssb/dapla/react-reference-app'
 
+resources:
+  containers:
+    - container: uLatest
+      image: ubuntu:latest
+
 jobs:
   - job: getDependencies
+    pool:
+      vmImage: 'ubuntu-latest'
     displayName: 'Get application dependencies'
     steps:
       - script: 'yarn install'
+    strategy:
+      matrix:
+        ubuntuLatest:
+          containerResource: uLatest
+    container: $[ variables['containerResource'] ]
   - job: testApplication
+    pool:
+      vmImage: 'ubuntu-latest'
     displayName: 'Run test and coverage reporting'
     dependsOn: getDependencies
     condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
@@ -28,13 +39,27 @@ jobs:
       - script: |
           ls -l ./node_modules
           CI=true yarn coverage
+    strategy:
+      matrix:
+        ubuntuLatest:
+          containerResource: uLatest
+    container: $[ variables['containerResource'] ]
   - job: buildApplication
+    pool:
+      vmImage: 'ubuntu-latest'
     displayName: 'Build Application'
     dependsOn: getDependencies
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     steps:
       - script: 'CI=true yarn build'
+    strategy:
+      matrix:
+        ubuntuLatest:
+          containerResource: uLatest
+    container: $[ variables['containerResource'] ]
   - job: analyzeCode
+    pool:
+      vmImage: 'ubuntu-latest'
     displayName: 'Run code analysis'
     dependsOn: testApplication
     condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
@@ -47,7 +72,14 @@ jobs:
           cliProjectKey: '$(SONAR_TOKEN)'
           cliSources: '.'
       - task: SonarQubeAnalyze@4
+    strategy:
+      matrix:
+        ubuntuLatest:
+          containerResource: uLatest
+    container: $[ variables['containerResource'] ]
   - job: buildAndPushDocker
+    pool:
+      vmImage: 'ubuntu-latest'
     displayName: 'Build and push Docker image'
     dependsOn: buildApplication
     steps:
@@ -65,3 +97,8 @@ jobs:
           command: 'buildAndPush'
           Dockerfile: 'Dockerfile'
           tags: '$(Build.SourceBranchName)-imagescan-$(fullSha)'
+    strategy:
+      matrix:
+        ubuntuLatest:
+          containerResource: uLatest
+    container: $[ variables['containerResource'] ]
