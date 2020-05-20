@@ -25,7 +25,9 @@ jobs:
     dependsOn: getDependencies
     condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
     steps:
-      - script: 'CI=true yarn coverage'
+      - script: |
+      'ls -l ./node_modules'
+      'CI=true yarn coverage'
   - job: buildApplication
     displayName: 'Build Application'
     dependsOn: getDependencies
