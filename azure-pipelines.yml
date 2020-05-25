@@ -21,14 +21,14 @@ jobs:
     condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
     steps:
       - script: |
-          yarn install
+          yarn
           CI=true yarn coverage
   - job: mergeToMaster
     displayName: 'Analyze code and build and push Docker image'
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     steps:
       - script: |
-          yarn install
+          yarn
           CI=true yarn build
       - task: SonarQubePrepare@4
         inputs:
