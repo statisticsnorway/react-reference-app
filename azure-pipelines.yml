@@ -30,7 +30,7 @@ jobs:
           path: $(yarnCache)
         displayName: 'Cache Yarn packages'
       - script: |
-          yarn install
+          yarn --frozen-lockfile
           CI=true yarn coverage
   - job: mergeToMaster
     displayName: 'Analyze code and build and push Docker image'
@@ -44,7 +44,7 @@ jobs:
           path: $(yarnCache)
         displayName: 'Cache Yarn packages'
       - script: |
-          yarn install
+          yarn --frozen-lockfile
           CI=true yarn build
       - task: SonarQubePrepare@4
         inputs:
