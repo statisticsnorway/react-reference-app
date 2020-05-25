@@ -14,37 +14,21 @@ variables:
     value: '$(Build.SourceVersion)'
   - name: imageName
     value: 'prod-bip/ssb/dapla/react-reference-app'
-  - name: yarnCache
-    value: '$(Pipeline.Workspace)/.yarn'
 
 jobs:
   - job: pullRequest
     displayName: 'Build applications and run tests'
     condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
     steps:
-      - task: Cache@2
-        inputs:
-          key: 'yarn | "$(Agent.OS)" | yarn.lock'
-          restoreKeys: |
-            yarn | "$(Agent.OS)"
-          path: $(yarnCache)
-        displayName: 'Cache Yarn packages'
       - script: |
-          yarn --frozen-lockfile
+          yarn
           CI=true yarn coverage
   - job: mergeToMaster
     displayName: 'Analyze code and build and push Docker image'
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     steps:
-      - task: Cache@2
-        inputs:
-          key: 'yarn | "$(Agent.OS)" | yarn.lock'
-          restoreKeys: |
-            yarn | "$(Agent.OS)"
-          path: $(yarnCache)
-        displayName: 'Cache Yarn packages'
       - script: |
-          yarn --frozen-lockfile
+          yarn
           CI=true yarn build
       - task: SonarQubePrepare@4
         inputs:

@@ -34,7 +34,7 @@ Replace `my-app` with the name of your application.
 Requires some configuration and bundling with [rollup.js](https://rollupjs.org/guide/en).
 
 ### Try this application locally
-The first time you clone the repository, remember to run `yarn install`.
+The first time you clone the repository, remember to run `yarn` or `yarn install`.
 
 Run `yarn start` and navigate to `http://localhost:3000/`.
 
@@ -106,7 +106,7 @@ The `/health` endpoint is added so one can check for liveness and readiness of t
 For now, they are equal but maybe in the future readiness will check for liveness of the application's integration points.
 
 ### [Azure Pipelines (.azure-pipelines.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/.drone.yml) 
-We try to make use of caching in our Azure Piplelines. The setup should be fairly easy by just following this
+We will try to make use of caching in our Azure Piplelines. The setup should be fairly easy by just following this
 applications `.azure-pipelines.yml` structure and remember to replace application names throughout the file with your 
 applications name where applicable.
 
