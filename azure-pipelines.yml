@@ -10,14 +10,10 @@ pool:
 
 variables:
   - group: Hemmeligheter
-  - name: fullSha
-    value: '$(Build.SourceVersion)'
-  - name: imageName
-    value: 'prod-bip/ssb/dapla/react-reference-app'
 
 jobs:
   - job: pullRequest
-    displayName: 'Build applications and run tests'
+    displayName: 'Build application and run tests'
     condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
     steps:
       - script: |
@@ -48,7 +44,7 @@ jobs:
       - task: Docker@2
         inputs:
           containerRegistry: 'gcrServiceConnection'
-          repository: '$(imageName)'
+          repository: 'prod-bip/ssb/dapla/react-reference-app'
           command: 'buildAndPush'
           Dockerfile: 'Dockerfile'
-          tags: '$(Build.SourceBranchName)-imagescan-$(fullSha)'
+          tags: '$(Build.SourceBranchName)-imagescan-$(Build.SourceVersion)'

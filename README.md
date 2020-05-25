@@ -1,8 +1,7 @@
 # react-reference-app
 [![Build Status](https://dev.azure.com/statisticsnorway/Dapla/_apis/build/status/Frontends/statisticsnorway.fe-react-reference-app?branchName=master)](https://dev.azure.com/statisticsnorway/Dapla/_build/latest?definitionId=6&branchName=master)
-[![Coverage](https://sonarqube.prod-bip-ci.ssb.no/api/project_badges/measure?project=statisticsnorway%3Afe-react-reference-app&metric=coverage)](https://sonarqube.prod-bip-ci.ssb.no/dashboard?id=statisticsnorway%3Afe-react-reference-app)
 
-This application and its documentation, should be used as a reference when creating new React applications that you want to 
+This application and its documentation should be used as a reference when creating new React applications that you want to 
 deploy to [BIP](https://github.com/statisticsnorway/platform).
 
 **Note:** Everything written here is subject to heavy change during a testing process.
@@ -105,13 +104,12 @@ is for it to work with **React Router** among other things.
 The `/health` endpoint is added so one can check for liveness and readiness of the Nginx serving the application.
 For now, they are equal but maybe in the future readiness will check for liveness of the application's integration points.
 
-### [Azure Pipelines (.azure-pipelines.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/.drone.yml) 
-We will try to make use of caching in our Azure Piplelines. The setup should be fairly easy by just following this
-applications `.azure-pipelines.yml` structure and remember to replace application names throughout the file with your 
-applications name where applicable.
+### [Azure Pipelines (.azure-pipelines.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/.azure-pipelines.yml) 
+The setup should be fairly easy by just following this applications `.azure-pipelines.yml` structure and remember to 
+replace application names throughout the file with your applications name where applicable.
 
-In essence, we use the `shared Yarn cache folder` each time a pipeline is ran. So far we have seen upwards of 1 minute 
-shorter pipelines with this option. Read about it [here](https://docs.microsoft.com/en-us/azure/devops/pipelines/release/caching?view=azure-devops#nodejsyarn).
+We will try to make use of caching in our Azure Piplelines which in essence is the usage of a `shared Yarn cache folder` 
+each time a pipeline is ran. Read about it [here](https://docs.microsoft.com/en-us/azure/devops/pipelines/release/caching?view=azure-devops#nodejsyarn).
 
 Unfortunatly we cannot run `steps` or `tasks` in parallel, but we have tried to make the pipeline as short as possible by
 seperating a build and test job for pull requests and a build and push Docker job for merges to master.
