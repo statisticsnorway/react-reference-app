@@ -14,7 +14,8 @@ variables:
     value: '$(Build.SourceVersion)'
   - name: imageName
     value: 'prod-bip/ssb/dapla/react-reference-app'
-    YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+  - name: yarnCache
+    value: '$(Pipeline.Workspace)/.yarn'
 
 jobs:
   - job: pullRequest
@@ -26,7 +27,7 @@ jobs:
           key: 'yarn | "$(Agent.OS)" | yarn.lock'
           restoreKeys: |
             yarn | "$(Agent.OS)"
-          path: $(YARN_CACHE_FOLDER)
+          path: $(yarnCache)
         displayName: 'Cache Yarn packages'
       - script: |
           yarn install
@@ -40,7 +41,7 @@ jobs:
           key: 'yarn | "$(Agent.OS)" | yarn.lock'
           restoreKeys: |
             yarn | "$(Agent.OS)"
-          path: $(YARN_CACHE_FOLDER)
+          path: $(yarnCache)
         displayName: 'Cache Yarn packages'
       - script: |
           yarn install
