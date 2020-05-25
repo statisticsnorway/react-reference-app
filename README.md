@@ -2,7 +2,7 @@
 [![Build Status](https://dev.azure.com/statisticsnorway/Dapla/_apis/build/status/Frontends/statisticsnorway.fe-react-reference-app?branchName=master)](https://dev.azure.com/statisticsnorway/Dapla/_build/latest?definitionId=6&branchName=master)
 [![Coverage](https://sonarqube.prod-bip-ci.ssb.no/api/project_badges/measure?project=statisticsnorway%3Afe-react-reference-app&metric=coverage)](https://sonarqube.prod-bip-ci.ssb.no/dashboard?id=statisticsnorway%3Afe-react-reference-app)
 
-This application, and its documentation, should be used as a reference when creating new React applications that you want to 
+This application and its documentation, should be used as a reference when creating new React applications that you want to 
 deploy to [BIP](https://github.com/statisticsnorway/platform).
 
 **Note:** Everything written here is subject to heavy change during a testing process.
@@ -49,7 +49,7 @@ Run `yarn start` and navigate to `http://localhost:3000/`.
 ### Writing tests
 Easy to follow guides for **Jest** are located [here](https://jestjs.io/docs/en/tutorial-react) and if you need to test
 DOM manipulation, use **React Testing Library** (guides found [here](https://testing-library.com/docs/react-testing-library/intro)). 
-The `debug` property exposed by **React Testing Library** is very useful so do yourself a favor and check that out!
+The `debug` property exposed by **React Testing Library** is very useful so do yourself a favor and check it out!
 
 Test coverage thresholds and other options can be configured in the `jest` object in [package.json](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/package.json),
 documentation found [here](https://jestjs.io/docs/en/configuration). Something to keep in mind would be to exclude files like 
@@ -75,21 +75,21 @@ on this and even an [importable component](https://github.com/beam-australia/rea
 ### Deployment
 You can read all about it in the [SSB developer guide](https://github.com/statisticsnorway/ssb-developer-guide/blob/master/docs/azure_pipeline_doc.md),
 but in essence the `.azure-pipelines.yml` file needs to be configured as per instructed at the bottom of the README. 
-The `buildAndPush` job is responsible for pushing the image to GCR.
+The `Docker`-tasks in the `mergeToMaster` job is responsible for pushing the image to GCR.
 
 You can check running builds here [https://dev.azure.com/statisticsnorway](https://dev.azure.com/statisticsnorway).
 
 **Note:**
-* For the deploy to actually happen the application needs a HelmRelease
+* For deployment to actually happen the application needs a HelmRelease
 * To expose your application on the internet you need to add a VirtualService
 
-These two things are handled by the platform developers for now. This might get automated or will be handled by the application
-developers in the future. However, this is somewhat doable by yourself now by adding the application to our `platform-dev` 
-repository, so you can either check the docs in that repository or ask a fellow collegue for help.
+This is somewhat doable by yourself by adding the application to our `platform-dev` repository, so you can either check 
+the docs in that repository or ask a fellow collegue for help.
 
 ### SonarQube
-You can include a code analysis in the pipeline by adding the `analyzeCode` job. For SonarQube to work properly with JavaScript
-code you need some additional configuration found in the [sonar-project.properties](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/sonar-project.properties) 
+You can include a code analysis in the pipeline by adding the `SonarQube`-tasks in the `mergeToMaster` job. For SonarQube 
+to work properly with JavaScript code you need some additional configuration found in the 
+[sonar-project.properties](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/sonar-project.properties) 
 file. `sonar.coverage.exclusions` needs to mirror your settings in the `jest` property in `package.json`. Everything else
 set in the file is just standard exclusions.
 
@@ -103,14 +103,15 @@ The reason for copying over our own [nginx.conf](https://github.com/statisticsno
 is for it to work with **React Router** among other things.
 
 The `/health` endpoint is added so one can check for liveness and readiness of the Nginx serving the application.
-For now they are equal but maybe in the future readiness will check for liveness of the applications integration points.
+For now, they are equal but maybe in the future readiness will check for liveness of the application's integration points.
 
 ### [Azure Pipelines (.azure-pipelines.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/.drone.yml) 
-We try to make use of caching and parallelism in our Azure Piplelines. The setup should be fairly easy by just following this
-applications `.azure-pipelines.yml` structure and remember to replace this applications name with your applications name where applicable.
+We try to make use of caching in our Azure Piplelines. The setup should be fairly easy by just following this
+applications `.azure-pipelines.yml` structure and remember to replace application names throughout the file with your 
+applications name where applicable.
 
-In essence we create a cache of the `node_modules` folder each time a pipeline is ran and also update the cache if nessecary.
-So far we have seen upwards of 1 minute shorter pipelines by caching dependencies.
+In essence, we use the `shared Yarn cache folder` each time a pipeline is ran. So far we have seen upwards of 1 minute 
+shorter pipelines with this option. Read about it [here](https://docs.microsoft.com/en-us/azure/devops/pipelines/release/caching?view=azure-devops#nodejsyarn).
 
-In addition to this we run steps which are not dependent on eachother in parallel through the `dependsOn` property. So far this
-has contributed to between 10 and 30 seconds shorter pipelines.
+Unfortunatly we cannot run `steps` or `tasks` in parallel, but we have tried to make the pipeline as short as possible by
+seperating a build and test job for pull requests and a build and push Docker job for merges to master.

@@ -14,12 +14,20 @@ variables:
     value: '$(Build.SourceVersion)'
   - name: imageName
     value: 'prod-bip/ssb/dapla/react-reference-app'
+    YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
 jobs:
   - job: pullRequest
     displayName: 'Build applications and run tests'
     condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
     steps:
+      - task: Cache@2
+        inputs:
+          key: 'yarn | "$(Agent.OS)" | yarn.lock'
+          restoreKeys: |
+            yarn | "$(Agent.OS)"
+          path: $(YARN_CACHE_FOLDER)
+        displayName: 'Cache Yarn packages'
       - script: |
           yarn install
           CI=true yarn coverage
@@ -27,6 +35,13 @@ jobs:
     displayName: 'Analyze code and build and push Docker image'
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     steps:
+      - task: Cache@2
+        inputs:
+          key: 'yarn | "$(Agent.OS)" | yarn.lock'
+          restoreKeys: |
+            yarn | "$(Agent.OS)"
+          path: $(YARN_CACHE_FOLDER)
+        displayName: 'Cache Yarn packages'
       - script: |
           yarn install
           CI=true yarn build
