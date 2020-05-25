@@ -29,6 +29,7 @@ jobs:
     steps:
       - script: |
           yarn
+          CI=true yarn coverage
           CI=true yarn build
       - task: SonarQubePrepare@4
         inputs:
@@ -36,6 +37,7 @@ jobs:
           scannerMode: 'CLI'
           configMode: 'manual'
           cliProjectKey: '$(SONAR_TOKEN)'
+          cliProjectName: '$(Build.Repository.Name)'
           cliSources: '.'
       - task: SonarQubeAnalyze@4
       - task: Docker@2
