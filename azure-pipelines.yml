@@ -16,13 +16,20 @@ variables:
     value: 'prod-bip/ssb/dapla/react-reference-app'
 
 jobs:
-  - job: testApplicationAndAnalyzeCode
-    displayName: 'Run test and coverage reporting'
+  - job: pullRequest
+    displayName: 'Build applications and run tests'
     condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
     steps:
       - script: |
           yarn install
           CI=true yarn coverage
+  - job: mergeToMaster
+    displayName: 'Analyze code and build and push Docker image'
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    steps:
+      - script: |
+          yarn install
+          CI=true yarn build
       - task: SonarQubePrepare@4
         inputs:
           SonarQube: 'bipSonarQube'
@@ -31,13 +38,6 @@ jobs:
           cliProjectKey: '$(SONAR_TOKEN)'
           cliSources: '.'
       - task: SonarQubeAnalyze@4
-  - job: buildAndPushDocker
-    displayName: 'Build and push Docker image'
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-    steps:
-      - script: |
-          yarn install
-          CI=true yarn build
       - task: Docker@2
         displayName: 'Login to GCR'
         inputs:
