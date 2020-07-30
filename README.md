@@ -1,5 +1,5 @@
 # react-reference-app
-[![Build Status](https://dev.azure.com/statisticsnorway/Dapla/_apis/build/status/Frontends/statisticsnorway.fe-react-reference-app?branchName=master)](https://dev.azure.com/statisticsnorway/Dapla/_build/latest?definitionId=6&branchName=master)
+[![Build Status](https://dev.azure.com/statisticsnorway/Dapla/_apis/build/status/Frontends/statisticsnorway.react-reference-app?branchName=master)](https://dev.azure.com/statisticsnorway/Dapla/_build/latest?definitionId=35&branchName=master)
 
 This application and its documentation should be used as a reference when creating new React applications that you want to 
 deploy to [BIP](https://github.com/statisticsnorway/platform).
