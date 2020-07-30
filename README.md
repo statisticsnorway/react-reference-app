@@ -30,7 +30,10 @@ Replace `my-app` with the name of your application.
   * Alternatively try a more rich hooks variant [graphql-hooks](https://github.com/nearform/graphql-hooks)
 
 ### React application as a library
-Requires some configuration and bundling with [rollup.js](https://rollupjs.org/guide/en).
+Requires some configuration and bundling with [rollup.js](https://rollupjs.org/guide/en). One such
+library is [dapla-js-utilities](https://github.com/statisticsnorway/dapla-js-utilities) and another is 
+[ssb-components-library](https://github.com/statisticsnorway/ssb-component-library). These can be used as examples for
+how to set it up correctly.
 
 ### Try this application locally
 The first time you clone the repository, remember to run `yarn` or `yarn install`.
