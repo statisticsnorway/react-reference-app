@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import useAxios from 'axios-hooks'
 import { Button, Divider, Grid, Input } from 'semantic-ui-react'
+import { ErrorMessage } from '@statisticsnorway/dapla-js-utilities'
 
 import { UI } from './enums'
-import { ErrorMessage, Footer } from './components/'
+import { Footer } from './components/'
 
 function App () {
-  const [url, setUrl] = useState(`${process.env.REACT_APP_LDS}${UI.AGENT_SCHEMA}`)
+  const [url, setUrl] = useState(`${process.env.REACT_APP_API}${UI.SCHEMAS}`)
   const [{ data, loading, error }, refetch] = useAxios(url, { manual: true })
 
   return (
