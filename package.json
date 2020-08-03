@@ -6,6 +6,7 @@
     "type": "git",
     "url": "git+https://github.com/statisticsnorway/react-reference-app.git"
   },
+  "author": "Statistics Norway",
   "license": "Apache-2.0",
   "licenses": [
     {
