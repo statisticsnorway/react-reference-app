@@ -33,7 +33,7 @@ test('App renders with response from backend', () => {
   userEvent.type(getByPlaceholderText(UI.PLACEHOLDER), '/')
 
   expect(getByText(testDataString)).toBeInTheDocument()
-  expect(useAxios).toHaveBeenNthCalledWith(3, `${process.env.REACT_APP_API}${UI.SCHEMAS}`, { 'manual': true })
+  expect(useAxios).toHaveBeenNthCalledWith(3, `${process.env.REACT_APP_API}${UI.SCHEMAS}/`, { 'manual': true })
 })
 
 test('Renders error when backend call returns error', () => {
