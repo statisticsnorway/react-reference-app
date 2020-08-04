@@ -1,19 +1,29 @@
 {
   "name": "react-reference-app",
-  "version": "1.3.3",
-  "private": true,
+  "version": "1.3.4",
+  "description": "React reference application for Statistics Norway developers",
   "repository": {
     "type": "git",
-    "url": "https://github.com/statisticsnorway/fe-react-reference-app"
+    "url": "git+https://github.com/statisticsnorway/react-reference-app.git"
   },
+  "author": "Statistics Norway",
+  "license": "Apache-2.0",
+  "licenses": [
+    {
+      "type": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  ],
+  "homepage": "https://github.com/statisticsnorway/react-reference-app",
   "dependencies": {
+    "@statisticsnorway/dapla-js-utilities": "^0.1.0",
     "axios": "^0.19.0",
     "axios-hooks": "^2.1.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-scripts": "3.4.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.0"
+    "semantic-ui-react": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
