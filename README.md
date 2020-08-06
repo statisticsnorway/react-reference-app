@@ -1,8 +1,9 @@
 # react-reference-app
 [![Build Status](https://dev.azure.com/statisticsnorway/Dapla/_apis/build/status/Frontends/statisticsnorway.react-reference-app?branchName=master)](https://dev.azure.com/statisticsnorway/Dapla/_build/latest?definitionId=35&branchName=master)
 
-This application is mainly built for developers at SSB and its documentation should be used as a reference when creating 
-new React applications that you want to deploy to [BIP](https://github.com/statisticsnorway/platform).
+This application is mainly built for developers at Statistics Norway and its documentation should be used as a 
+reference when creating new React applications that you want to deploy to 
+[BIP](https://github.com/statisticsnorway/platform).
 
 **Note:** Everything written here is subject to heavy change during a testing process.
 
@@ -28,11 +29,13 @@ new React applications that you want to deploy to [BIP](https://github.com/stati
 When creating a React application you need the following installed: 
 * JavaScript runtime [Node.js](https://nodejs.org/en/) (Use Current version)
 * Dependency manager [Yarn](https://yarnpkg.com/en/) (Use Stable version)
-
-Use `yarn create react-app my-app` when creating new applications (almost everything is then setup for you).
-Replace `my-app` with the name of your application.
-
 * Use [standardJS](https://standardjs.com/) for code formatting ([find your text editor plugin](https://standardjs.com/#are-there-text-editor-plugins))
+
+Use `yarn create react-app [my-app]` when creating new applications (almost everything is then setup for you).
+Replace `[my-app]` with the name of your application. If you want a more complete and preconfigured project setup for you
+there is the possibility to use cra-templates:
+* For React application go to https://github.com/statisticsnorway/cra-template-dapla-react-app
+* For JavaScript library go to https://github.com/statisticsnorway/cra-template-dapla-js-lib
 
 ### Preferred dependencies (tips)
 * When working with JavaScript date objects, use [date-fns](https://date-fns.org/)
@@ -62,7 +65,7 @@ will not result in a successful test run.
 
 Check out the tests written in this application, [variable-search](https://github.com/statisticsnorway/variable-search/tree/master/src/__tests__)
 or [user-access-admin](https://github.com/statisticsnorway/user-access-admin/tree/master/src/__tests__)
-to get you started if you need some ideas.
+to get you started if you need some ideas. There are also tests written to get you going in the templates.
 
 ### Try this application locally
 The first time you clone the repository, remember to run `yarn` or `yarn install`.
@@ -125,7 +128,7 @@ is for it to work with **React Router** among other things.
 The `/health` endpoint is added so one can check for liveness and readiness of the Nginx serving the application.
 For now, they are equal but maybe in the future readiness will check for liveness of the application's integration points.
 
-### [Azure Pipelines (.azure-pipelines.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/.azure-pipelines.yml) 
+### [Azure Pipelines (azure-pipelines.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/azure-pipelines.yml) 
 The setup should be fairly easy by just following this applications `.azure-pipelines.yml` structure and remember to 
 replace application names throughout the file with your applications name where applicable.
 
