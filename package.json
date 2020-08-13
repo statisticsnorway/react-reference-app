@@ -4,7 +4,7 @@
   "description": "React reference application for Statistics Norway developers",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/statisticsnorway/react-reference-app.git"
+    "url": "https://github.com/statisticsnorway/react-reference-app"
   },
   "author": "Statistics Norway",
   "license": "Apache-2.0",
@@ -14,7 +14,6 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0"
     }
   ],
-  "homepage": "https://github.com/statisticsnorway/react-reference-app",
   "dependencies": {
     "@statisticsnorway/dapla-js-utilities": "^0.1.0",
     "axios": "^0.19.0",
