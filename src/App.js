@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import useAxios from 'axios-hooks'
 import { Button, Divider, Grid, Input } from 'semantic-ui-react'
 import { ErrorMessage } from '@statisticsnorway/dapla-js-utilities'
-import DataView from './components/DataView';
 
+import { DataView, Footer } from './components/'
 import { UI } from './enums'
-import { Footer } from './components/'
 
-function App() {
+function App () {
   const [url, setUrl] = useState(`${process.env.REACT_APP_API}${UI.SCHEMAS}`)
+
   const [{ data, loading, error }, refetch] = useAxios(url, { manual: true })
 
   return (
@@ -24,7 +24,9 @@ function App() {
                   value={url}
                   size='large'
                   loading={loading}
+                  disabled={loading}
                   placeholder={UI.PLACEHOLDER}
+                  onKeyPress={({ key }) => key === 'Enter' && refetch()}
                   onChange={(event, { value }) => setUrl(value)}
                 />
                 <Divider hidden />
@@ -35,18 +37,13 @@ function App() {
                   content={UI.BUTTON}
                   disabled={url === '' || loading}
                 />
-                <Divider hidden />
               </>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
             <Grid.Column computer={12} tablet={16} mobile={16}>
-              <>
-                {data && !loading && !error &&
-                  <div style={{ textAlign: 'left' }}><DataView data={data} /></div>
-                }
-                {error && <ErrorMessage error={error} />}
-              </>
+              {data && !loading && !error && <DataView data={data} />}
+              {error && <ErrorMessage error={error} />}
             </Grid.Column>
           </Grid.Row>
         </Grid>
