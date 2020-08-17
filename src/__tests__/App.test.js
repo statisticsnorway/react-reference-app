@@ -6,11 +6,11 @@ import { render } from '@testing-library/react'
 import App from '../App'
 import { UI } from '../enums'
 
+jest.mock('../components/DataView', () => () => null)
+
 const refetch = jest.fn()
 const errorString = 'A problem occured'
 const errorObject = { response: { data: errorString } }
-const testDataObject = { data: 'Some data' }
-const testDataString = '{ \"data\": \"Some data\" }'
 
 const setup = () => {
   const { getByPlaceholderText, getByText } = render(<App />)
@@ -27,16 +27,15 @@ test('App renders correctly', () => {
 })
 
 test('App renders with response from backend', () => {
-  useAxios.mockReturnValue([{ data: testDataObject, loading: false, error: null }, refetch])
-  const { getByPlaceholderText, getByText } = setup()
+  useAxios.mockReturnValue([{ data: {}, loading: false, error: null }, refetch])
+  const { getByPlaceholderText } = setup()
 
   userEvent.type(getByPlaceholderText(UI.PLACEHOLDER), '/')
 
-  expect(getByText(testDataString)).toBeInTheDocument()
   expect(useAxios).toHaveBeenNthCalledWith(3, `${process.env.REACT_APP_API}${UI.SCHEMAS}/`, { 'manual': true })
 })
 
-test('Renders error when backend call returns error', () => {
+test('App renders error when backend call returns error', () => {
   useAxios.mockReturnValue([{ data: undefined, loading: false, error: errorObject }, refetch])
   const { getByText } = setup()
 
