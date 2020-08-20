@@ -3,7 +3,7 @@ import useAxios from 'axios-hooks'
 import { Button, Divider, Grid, Input } from 'semantic-ui-react'
 import { ErrorMessage } from '@statisticsnorway/dapla-js-utilities'
 
-import { DataView, Footer } from './components/'
+import { DataView, Footer } from './components'
 import { UI } from './enums'
 
 function App () {
