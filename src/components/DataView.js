@@ -3,7 +3,6 @@ import { Accordion, Container, List } from 'semantic-ui-react'
 
 function DataView ({ data }) {
   const parseData = (data, first, index) => {
-
     let composite = Array.isArray(data) ? {
         key: 'a',
         title: 'array',
@@ -11,7 +10,7 @@ function DataView ({ data }) {
           content: (<List>{data.map((datum, index) => parseData(datum, false, index))}</List>)
         }
       }
-      : typeof data === 'object' && data !== null && data !== undefined ? {
+      : typeof data === 'object' && data !== null ? {
         key: 'o',
         title: 'object',
         content: {
