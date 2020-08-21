@@ -65,6 +65,10 @@
         "lines": 75,
         "statements": 75
       }
-    }
+    },
+    "coverageReporters": [
+      "cobertura",
+      "text"
+    ]
   }
 }
