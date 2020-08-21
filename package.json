@@ -16,7 +16,7 @@
   ],
   "dependencies": {
     "@statisticsnorway/dapla-js-utilities": "^0.1.0",
-    "axios": "^0.19.0",
+    "axios": "^0.20.0",
     "axios-hooks": "^2.1.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
