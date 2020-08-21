@@ -1,7 +1,7 @@
 import React from 'react'
 import { Accordion, Container, List } from 'semantic-ui-react'
 
-function DataView ({ data }) {
+function ResponseView ({ data }) {
   const parseData = (data, first, index) => {
     let composite = Array.isArray(data) ? {
         key: 'a',
@@ -41,4 +41,4 @@ function DataView ({ data }) {
   )
 }
 
-export default DataView
+export default ResponseView
