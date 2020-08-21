@@ -3,7 +3,7 @@ import useAxios from 'axios-hooks'
 import { Button, Divider, Grid, Input } from 'semantic-ui-react'
 import { ErrorMessage } from '@statisticsnorway/dapla-js-utilities'
 
-import { DataView, Footer } from './components'
+import { Footer, ResponseView } from './components'
 import { UI } from './enums'
 
 function App () {
@@ -42,7 +42,7 @@ function App () {
           </Grid.Row>
           <Grid.Row>
             <Grid.Column computer={12} tablet={16} mobile={16}>
-              {data && !loading && !error && <DataView data={data} />}
+              {data && !loading && !error && <ResponseView data={data} />}
               {error && <ErrorMessage error={error} />}
             </Grid.Column>
           </Grid.Row>

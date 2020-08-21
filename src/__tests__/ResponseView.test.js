@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 
-import { DataView } from '../components'
+import { ResponseView } from '../components'
 
 const testDataString = 'Some data'
 const testDataArrayString1 = 'Array data 1'
@@ -17,7 +17,7 @@ const testDataNestedObject = {
 }
 
 const setup = (data) => {
-  const { getByText } = render(<DataView data={data} />)
+  const { getByText } = render(<ResponseView data={data} />)
 
   return { getByText }
 }

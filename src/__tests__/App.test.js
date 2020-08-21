@@ -6,7 +6,7 @@ import { render } from '@testing-library/react'
 import App from '../App'
 import { UI } from '../enums'
 
-jest.mock('../components/DataView', () => () => null)
+jest.mock('../components/ResponseView', () => () => null)
 
 const refetch = jest.fn()
 const errorString = 'A problem occured'
