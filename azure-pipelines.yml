@@ -11,18 +11,17 @@ pool:
 variables:
   - group: Hemmeligheter
   - name: 'repoName'
-    default: 'prod-bip/ssb/dapla/react-reference-app'
+    value: 'prod-bip/ssb/dapla/react-reference-app'
   - name: 'imageHost'
-    default: 'https://eu.gcr.io/'
+    value: 'https://eu.gcr.io/'
   - name: 'imageName'
-    default: 'eu.gcr.io/$(repoName)'
+    value: 'eu.gcr.io/$(repoName)'
   - name: 'fullSha'
-    default: '$(Build.SourceVersion)'
-    type: 'string'
+    value: '$(Build.SourceVersion)'
   - name: 'imageTagBeforeVulnerabilityScan'
-    default: 'imagescan-$(Build.SourceBranchName)-$(fullSha)'
+    value: 'imagescan-$(Build.SourceBranchName)-$(fullSha)'
   - name: 'imageTagAfterVulnerabilityScan'
-    default: '$(Build.SourceBranchName)-$(fullSha)'
+    value: '$(Build.SourceBranchName)-$(fullSha)'
 
 jobs:
   - job: pullRequest
