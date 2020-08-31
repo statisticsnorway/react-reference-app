@@ -5,96 +5,21 @@ trigger:
     include:
       - master
 
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: statisticsnorway/azure-pipelines-templates
+      endpoint: statisticsnorway (6)
+
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  - group: Hemmeligheter
   - name: 'appName'
     value: 'react-reference-app'
-  - name: 'repoName'
-    value: 'prod-bip/ssb/dapla/$(appName)'
-  - name: 'imageHost'
-    value: 'https://eu.gcr.io/'
-  - name: 'imageName'
-    value: 'eu.gcr.io/$(repoName)'
-  - name: 'fullSha'
-    value: '$(Build.SourceVersion)'
-  - name: 'imageTagBeforeVulnerabilityScan'
-    value: 'imagescan-$(Build.SourceBranchName)-$(fullSha)'
-  - name: 'imageTagAfterVulnerabilityScan'
-    value: '$(Build.SourceBranchName)-$(fullSha)'
 
 jobs:
-  - job: pullRequest
-    displayName: 'Run tests'
-    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
-    steps:
-      - script: |
-          yarn
-          CI=true yarn coverage
-        displayName: 'Tests'
-  - job: mergeToMaster
-    displayName: 'Analyze code and build and push Docker image'
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-    steps:
-      - script: |
-          yarn
-          CI=true yarn coverage
-          CI=true yarn build
-        displayName: 'Build'
-      - task: PublishCodeCoverageResults@1
-        inputs:
-          codeCoverageTool: Cobertura
-          summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
-          reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
-      - task: SonarQubePrepare@4
-        inputs:
-          SonarQube: 'bipSonarQube'
-          scannerMode: 'CLI'
-          configMode: 'manual'
-          cliProjectKey: '$(Build.DefinitionName)'
-          cliProjectName: '$(Build.Repository.Name)'
-          cliSources: '.'
-      - task: SonarQubeAnalyze@4
-      - task: SonarQubePublish@4
-      - task: Docker@2
-        displayName: 'Docker Build'
-        inputs:
-          repository: '$(imageName)'
-          command: 'build'
-          Dockerfile: 'Dockerfile'
-          tags: '$(imageTagBeforeVulnerabilityScan)'
-      - task: Docker@2
-        displayName: 'Docker Login'
-        inputs:
-          command: 'login'
-          containerRegistry: gcrServiceConnection
-      - task: Docker@2
-        displayName: 'Docker Push'
-        inputs:
-          repository: '$(repoName)'
-          command: 'push'
-          containerRegistry: gcrServiceConnection
-          tags: '$(imageTagBeforeVulnerabilityScan)'
-      - task: DownloadSecureFile@1
-        name: gcrJsonKey
-        inputs:
-          secureFile: 'gcr-key.json'
-      - script: |
-          echo "##vso[task.setvariable variable=GOOGLE_APPLICATION_CREDENTIALS]$(gcrJsonKey.secureFilePath)"
-        displayName: 'Set GCR Key'
-      - task: gcr-vulneralbility-check@0
-        inputs:
-          projectId: 'prod-bip'
-          imageHost: '$(imageHost)'
-          image: '$(repoName)'
-          imageTag: '$(imageTagBeforeVulnerabilityScan)'
-          timeBetweenRetries: '10000'
-      - script: |
-          cat $(gcrJsonKey.secureFilePath) | docker login -u _json_key --password-stdin ${{ variables.imageHost }}
-          docker pull ${{ variables.imageName }}:${{ variables.imageTagBeforeVulnerabilityScan }}
-          docker tag ${{ variables.imageName }}:${{ variables.imageTagBeforeVulnerabilityScan }} ${{ variables.imageName }}:${{ variables.imageTagAfterVulnerabilityScan }}
-          docker push ${{ variables.imageName }}:${{ variables.imageTagAfterVulnerabilityScan }}
-        displayName: 'Retag Image'
-        condition: succeeded()
+  - template: javascript/react-complete-build.yml@templates
+    parameters:
+      appName: '$(appName)'
