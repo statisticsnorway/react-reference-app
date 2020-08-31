@@ -5,7 +5,7 @@ This application is mainly built for developers at Statistics Norway and its doc
 reference when creating new React applications that you want to deploy to 
 [BIP](https://github.com/statisticsnorway/platform).
 
-**Note:** Everything written here is subject to heavy change during a testing process.
+**Note:** Everything written here is subject to change during a testing and setup process.
 
 - [Getting started](#getting-started)
     - [What you need](#what-you-need)
@@ -97,7 +97,7 @@ how to set it up correctly.
 
 ## Deployment
 You can read all about it in the [SSB developer guide](https://github.com/statisticsnorway/ssb-developer-guide/blob/master/docs/azure_pipeline_doc.md),
-but in essence the `.azure-pipelines.yml` file needs to be configured as per instructed at the bottom of the README. 
+but in essence the `.azure-pipelines.yml` file needs to be configured as per instructed at the bottom of this README. 
 The `Docker`-tasks in the `mergeToMaster` job is responsible for pushing the image to GCR.
 
 You can check running builds here [https://dev.azure.com/statisticsnorway](https://dev.azure.com/statisticsnorway).
@@ -123,7 +123,7 @@ for no understandable reason.
 
 ### [Dockerfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Dockerfile)
 The reason for copying over our own [nginx.conf](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/nginx.conf) 
-is for it to work with **React Router** among other things.
+is for it to work with **React Router** and provide a `/health` endpoint.
 
 The `/health` endpoint is added so one can check for liveness and readiness of the Nginx serving the application.
 For now, they are equal but maybe in the future readiness will check for liveness of the application's integration points.
