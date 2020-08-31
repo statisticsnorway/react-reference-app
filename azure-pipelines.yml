@@ -10,6 +10,19 @@ pool:
 
 variables:
   - group: Hemmeligheter
+  - name: 'repoName'
+    default: 'prod-bip/ssb/dapla/react-reference-app'
+  - name: 'imageHost'
+    default: 'https://eu.gcr.io/'
+  - name: 'imageName'
+    default: 'eu.gcr.io/$(repoName)'
+  - name: 'fullSha'
+    default: '$(Build.SourceVersion)'
+    type: 'string'
+  - name: 'imageTagBeforeVulnerabilityScan'
+    default: 'imagescan-$(Build.SourceBranchName)-$(fullSha)'
+  - name: 'imageTagAfterVulnerabilityScan'
+    default: '$(Build.SourceBranchName)-$(fullSha)'
 
 jobs:
   - job: pullRequest
@@ -43,14 +56,37 @@ jobs:
       - task: SonarQubeAnalyze@4
       - task: SonarQubePublish@4
       - task: Docker@2
-        displayName: 'Login to GCR'
         inputs:
-          command: login
+          repository: '$(imageName)'
+          command: 'build'
+          Dockerfile: 'Dockerfile'
+          tags: '$(imageTagBeforeVulnerabilityScan)'
+      - task: Docker@2
+        inputs:
+          command: 'login'
           containerRegistry: gcrServiceConnection
       - task: Docker@2
         inputs:
-          containerRegistry: 'gcrServiceConnection'
-          repository: 'prod-bip/ssb/dapla/react-reference-app'
-          command: 'buildAndPush'
-          Dockerfile: 'Dockerfile'
-          tags: '$(Build.SourceBranchName)-imagescan-$(Build.SourceVersion)'
+          repository: '$(repoName)'
+          command: 'push'
+          containerRegistry: gcrServiceConnection
+          tags: '$(imageTagBeforeVulnerabilityScan)'
+      - task: DownloadSecureFile@1
+        name: gcrJsonKey
+        inputs:
+          secureFile: 'gcr-key.json'
+      - script: |
+          echo "##vso[task.setvariable variable=GOOGLE_APPLICATION_CREDENTIALS]$(gcrJsonKey.secureFilePath)"
+      - task: gcr-vulneralbility-check@0
+        inputs:
+          projectId: 'prod-bip'
+          imageHost: '$(imageHost)'
+          image: '$(repoName)'
+          imageTag: '$(imageTagBeforeVulnerabilityScan)'
+          timeBetweenRetries: '10000'
+      - script: |
+          cat $(gcrJsonKey.secureFilePath) | docker login -u _json_key --password-stdin ${{ variables.imageHost }}
+          docker pull ${{ variables.imageName }}:${{ variables.imageTagBeforeVulnerabilityScan }}
+          docker tag ${{ variables.imageName }}:${{ variables.imageTagBeforeVulnerabilityScan }} ${{ variables.imageName }}:${{ variables.imageTagAfterVulnerabilityScan }}
+          docker push ${{ variables.imageName }}:${{ variables.imageTagAfterVulnerabilityScan }}
+        condition: succeeded()
