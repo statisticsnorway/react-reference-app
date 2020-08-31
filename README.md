@@ -130,7 +130,7 @@ For now, they are equal but maybe in the future readiness will check for livenes
 
 ### [Azure Pipelines (azure-pipelines.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/azure-pipelines.yml) 
 The setup should be fairly easy by just following this applications `.azure-pipelines.yml` structure and remember to 
-replace application names throughout the file with your applications name where applicable.
+replace application name in the variable `appName`.
 
 We will try to make use of caching in our Azure Piplelines which in essence is the usage of a `shared Yarn cache folder` 
 each time a pipeline is ran. Read about it [here](https://docs.microsoft.com/en-us/azure/devops/pipelines/release/caching?view=azure-devops#nodejsyarn).

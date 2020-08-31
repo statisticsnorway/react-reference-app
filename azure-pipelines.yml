@@ -10,8 +10,10 @@ pool:
 
 variables:
   - group: Hemmeligheter
+  - name: 'appName'
+    value: 'react-reference-app'
   - name: 'repoName'
-    value: 'prod-bip/ssb/dapla/react-reference-app'
+    value: 'prod-bip/ssb/dapla/$(appName)'
   - name: 'imageHost'
     value: 'https://eu.gcr.io/'
   - name: 'imageName'
