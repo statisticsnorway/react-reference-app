@@ -10,8 +10,10 @@ pool:
 
 variables:
   - group: Hemmeligheter
+  - name: 'appName'
+    value: 'react-reference-app'
   - name: 'repoName'
-    value: 'prod-bip/ssb/dapla/react-reference-app'
+    value: 'prod-bip/ssb/dapla/$(appName)'
   - name: 'imageHost'
     value: 'https://eu.gcr.io/'
   - name: 'imageName'
@@ -31,6 +33,7 @@ jobs:
       - script: |
           yarn
           CI=true yarn coverage
+        displayName: 'Tests'
   - job: mergeToMaster
     displayName: 'Analyze code and build and push Docker image'
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
@@ -39,6 +42,7 @@ jobs:
           yarn
           CI=true yarn coverage
           CI=true yarn build
+        displayName: 'Build'
       - task: PublishCodeCoverageResults@1
         inputs:
           codeCoverageTool: Cobertura
@@ -55,16 +59,19 @@ jobs:
       - task: SonarQubeAnalyze@4
       - task: SonarQubePublish@4
       - task: Docker@2
+        displayName: 'Docker Build'
         inputs:
           repository: '$(imageName)'
           command: 'build'
           Dockerfile: 'Dockerfile'
           tags: '$(imageTagBeforeVulnerabilityScan)'
       - task: Docker@2
+        displayName: 'Docker Login'
         inputs:
           command: 'login'
           containerRegistry: gcrServiceConnection
       - task: Docker@2
+        displayName: 'Docker Push'
         inputs:
           repository: '$(repoName)'
           command: 'push'
@@ -76,6 +83,7 @@ jobs:
           secureFile: 'gcr-key.json'
       - script: |
           echo "##vso[task.setvariable variable=GOOGLE_APPLICATION_CREDENTIALS]$(gcrJsonKey.secureFilePath)"
+        displayName: 'Set GCR Key'
       - task: gcr-vulneralbility-check@0
         inputs:
           projectId: 'prod-bip'
@@ -88,4 +96,5 @@ jobs:
           docker pull ${{ variables.imageName }}:${{ variables.imageTagBeforeVulnerabilityScan }}
           docker tag ${{ variables.imageName }}:${{ variables.imageTagBeforeVulnerabilityScan }} ${{ variables.imageName }}:${{ variables.imageTagAfterVulnerabilityScan }}
           docker push ${{ variables.imageName }}:${{ variables.imageTagAfterVulnerabilityScan }}
+        displayName: 'Retag Image'
         condition: succeeded()
