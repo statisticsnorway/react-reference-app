@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 
-import { ResponseView } from '../components'
+import ResponseView from '../components/ResponseView'
 
 const testDataString = 'Some data'
 const testDataArrayString1 = 'Array data 1'

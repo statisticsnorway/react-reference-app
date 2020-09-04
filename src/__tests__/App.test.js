@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { render } from '@testing-library/react'
 
 import App from '../App'
-import { UI } from '../enums'
+import { UI } from '../enums/UI'
 
 jest.mock('../components/ResponseView', () => () => null)
 
@@ -20,19 +20,28 @@ const setup = () => {
 
 test('App renders correctly', () => {
   useAxios.mockReturnValue([{ data: undefined, loading: false, error: null }, refetch])
-  const { getByPlaceholderText, getByText } = setup()
+  const { getByPlaceholderText } = setup()
 
   expect(getByPlaceholderText(UI.PLACEHOLDER).value).toEqual(`${process.env.REACT_APP_API}${UI.SCHEMAS}`)
-  expect(getByText(`${UI.VERSION}: ${process.env.REACT_APP_VERSION}`)).toBeInTheDocument()
 })
 
 test('App renders with response from backend', () => {
   useAxios.mockReturnValue([{ data: {}, loading: false, error: null }, refetch])
-  const { getByPlaceholderText } = setup()
+  const { getByPlaceholderText, getByText } = setup()
 
   userEvent.type(getByPlaceholderText(UI.PLACEHOLDER), '/')
+  userEvent.click(getByText(UI.BUTTON))
 
   expect(useAxios).toHaveBeenNthCalledWith(3, `${process.env.REACT_APP_API}${UI.SCHEMAS}/`, { 'manual': true })
+})
+
+test('Pressing "Enter" triggers backend call', () => {
+  useAxios.mockReturnValue([{ data: {}, loading: false, error: null }, refetch])
+  const { getByPlaceholderText } = setup()
+
+  userEvent.type(getByPlaceholderText(UI.PLACEHOLDER), '{enter}')
+
+  expect(useAxios).toHaveBeenNthCalledWith(4, `${process.env.REACT_APP_API}${UI.SCHEMAS}`, { 'manual': true })
 })
 
 test('App renders error when backend call returns error', () => {

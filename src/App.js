@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import useAxios from 'axios-hooks'
-import { Button, Divider, Grid, Input } from 'semantic-ui-react'
-import { ErrorMessage } from '@statisticsnorway/dapla-js-utilities'
+import { Button, Divider, Grid, Input, Segment } from 'semantic-ui-react'
+import { ErrorMessage, SimpleFooter } from '@statisticsnorway/dapla-js-utilities'
 
-import { Footer, ResponseView } from './components'
-import { UI } from './enums'
+import ResponseView from './components/ResponseView'
+import { UI } from './enums/UI'
 
 function App () {
   const [url, setUrl] = useState(`${process.env.REACT_APP_API}${UI.SCHEMAS}`)
@@ -48,7 +48,9 @@ function App () {
           </Grid.Row>
         </Grid>
       </div>
-      <Footer />
+      <Segment basic>
+        <SimpleFooter appVersion={process.env.REACT_APP_VERSION} sourceUrl={process.env.REACT_APP_SOURCE_URL} />
+      </Segment>
     </div>
   )
 }

@@ -48,14 +48,13 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.7.0",
-    "@testing-library/react": "^10.0.4",
+    "@testing-library/react": "^11.0.2",
     "@testing-library/user-event": "^12.0.11"
   },
   "jest": {
     "collectCoverageFrom": [
       "src/**",
       "!src/index.js",
-      "!src/**/index.js",
       "!src/enums/**"
     ],
     "coverageThreshold": {
