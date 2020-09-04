@@ -55,7 +55,6 @@
     "collectCoverageFrom": [
       "src/**",
       "!src/index.js",
-      "!src/**/index.js",
       "!src/enums/**"
     ],
     "coverageThreshold": {

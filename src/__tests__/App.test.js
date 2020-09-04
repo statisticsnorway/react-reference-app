@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { render } from '@testing-library/react'
 
 import App from '../App'
-import { UI } from '../enums'
+import { UI } from '../enums/UI'
 
 jest.mock('../components/ResponseView', () => () => null)
 

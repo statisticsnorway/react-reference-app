@@ -4,7 +4,7 @@ import { Button, Divider, Grid, Input, Segment } from 'semantic-ui-react'
 import { ErrorMessage, SimpleFooter } from '@statisticsnorway/dapla-js-utilities'
 
 import ResponseView from './components/ResponseView'
-import { UI } from './enums'
+import { UI } from './enums/UI'
 
 function App () {
   const [url, setUrl] = useState(`${process.env.REACT_APP_API}${UI.SCHEMAS}`)
