@@ -95,7 +95,7 @@ on this and even an importable component called [react-env](https://github.com/b
 project. Basically this means you have to:
 * Write your own `docker-entrypoint.sh` file which uses **react-env** in the same way they use it in their provided 
 Docker image
-* Refer to you environment variables with `window._env` instead of **react-env**'s built-in `env` function.
+* Refer to your environment variables with `window._env` instead of **react-env**'s built-in `env` function.
 
 Another caveat to using **react-env** (or your own scripts to do the same thing) is that **nodejs**, **yarn** and 
 **@beam-australia/react-env**, or something eqvivalent that can run scripts and build the `env.js` file, have to be

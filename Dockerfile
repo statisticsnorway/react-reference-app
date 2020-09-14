@@ -4,12 +4,11 @@ RUN apk add --no-cache nodejs yarn
 RUN yarn global add @beam-australia/react-env
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY .env docker-entrypoint.sh /var/
 COPY /build /usr/share/nginx/html
-COPY .env /var/
-COPY entrypoint.sh /var/entrypoint.sh
 
 EXPOSE 80
 
-ENTRYPOINT ["/var/entrypoint.sh"]
+ENTRYPOINT ["/var/docker-entrypoint.sh"]
 
 CMD ["nginx", "-g", "daemon off;"]
