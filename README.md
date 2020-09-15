@@ -19,8 +19,8 @@ reference when creating new React applications that you want to deploy to
     - [React application as a library](#react-application-as-a-library)
 - [Deployment](#deployment)
     - [SonarQube](#sonarqube)
-    - [Dockerfile](#dockerfilehttpsgithubcomstatisticsnorwayfe-react-reference-appblobmasterdockerfile)
-    - [Azure Pipelines (.azure-pipelines.yml)](#azure-pipelines-azure-pipelinesymlhttpsgithubcomstatisticsnorwayfe-react-reference-appblobmasterazure-pipelinesyml)
+    - [Dockerfile](#dockerfilehttpsgithubcomstatisticsnorwayreact-reference-appblobmasterdockerfile)
+    - [Azure Pipelines (.azure-pipelines.yml)](#azure-pipelines-azure-pipelinesymlhttpsgithubcomstatisticsnorwayreact-reference-appblobmasterazure-pipelinesyml)
 
 ----
 
@@ -55,7 +55,7 @@ Easy to follow guides for **Jest** are located [here](https://jestjs.io/docs/en/
 DOM manipulation, use **React Testing Library** (guides found [here](https://testing-library.com/docs/react-testing-library/intro)). 
 The `debug` property exposed by **React Testing Library** is very useful so do yourself a favor and check it out!
 
-Test coverage thresholds and other options can be configured in the `jest` object in [package.json](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/package.json),
+Test coverage thresholds and other options can be configured in the `jest` object in [package.json](https://github.com/statisticsnorway/react-reference-app/blob/master/package.json),
 documentation found [here](https://jestjs.io/docs/en/configuration). Something to keep in mind would be to exclude files like 
 `index.js`, or files that only use external libraries. Mainly because these types of files do not need to be testet, but also
 because they may contribute to inaccurate coverage reporting.
@@ -78,6 +78,7 @@ Run `yarn start` and navigate to `http://localhost:3000/`.
 * `yarn build`
 * `docker build -t react-reference-app .`
 * `docker run -p 8000:80 react-reference-app:latest`
+  * Alternatively with custom environment variables: `docker run -p 8000:80 -e REACT_APP_API=http://localhost:9091 react-reference-app:latest`
 * Navigate to `http://localhost:8000/`
 
 ## More things
@@ -87,7 +88,23 @@ provided by the React developers.
 
 ### Runtime environment variables
 There is [documentation](https://create-react-app.dev/docs/title-and-meta-tags/#injecting-data-from-the-server-into-the-page)
-on this and even an [importable component](https://github.com/beam-australia/react-env) which you can try out.
+on this and even an importable component called [react-env](https://github.com/beam-australia/react-env) which you can try out.
+
+**Note** about using **react-env**. If you want to maintain control over your Docker image with things such as your own 
+`nginx.conf` and you do not want to package `react-env` with your application you can do it the way it is done in this 
+project. Basically this means you have to:
+* Write your own `docker-entrypoint.sh` file which uses **react-env** in the same way they use it in their provided 
+Docker image
+* Refer to your environment variables with `window._env` instead of **react-env**'s built-in `env` function.
+
+Another caveat to using **react-env** (or your own scripts to do the same thing) is that **nodejs**, **yarn** and 
+**@beam-australia/react-env**, or something eqvivalent that can run scripts and build the `env.js` file, have to be
+present in the Docker image. Which unfornunatly makes the final application image not so slim after all. Additonally 
+this makes the Docker build step in the pipline a little slower, which is only adding time to an already slow pipeline.
+
+You can read about the issues surrounding runtime environment variables in React applications on the 
+[React GitHub page](https://github.com/facebook/create-react-app), issue 2353. This is where **react-env** and some 
+other hacky solutions are mentioned.
 
 ### React application as a library
 Requires some configuration and bundling with [rollup.js](https://rollupjs.org/guide/en). One such
@@ -102,17 +119,10 @@ The `Docker`-tasks in the `mergeToMaster` job is responsible for pushing the ima
 
 You can check running builds here [https://dev.azure.com/statisticsnorway](https://dev.azure.com/statisticsnorway).
 
-**Note:**
-* For deployment to actually happen the application needs a HelmRelease
-* To expose your application on the internet you need to add a VirtualService
-
-This is somewhat doable by yourself by adding the application to our `platform-dev` repository, so you can either check 
-the docs in that repository or ask a fellow collegue for help.
-
 ### SonarQube
 You can include a code analysis in the pipeline by adding the `SonarQube`-tasks in the `mergeToMaster` job. For SonarQube 
 to work properly with JavaScript code you need some additional configuration found in the 
-[sonar-project.properties](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/sonar-project.properties) 
+[sonar-project.properties](https://github.com/statisticsnorway/react-reference-app/blob/master/sonar-project.properties) 
 file. `sonar.coverage.exclusions` needs to mirror your settings in the `jest` property in `package.json`. Everything else
 set in the file is just standard exclusions.
 
@@ -121,19 +131,16 @@ and detects code smells and bugs rather accuratly and displays it in a nice UI. 
 exclude certain files from coverage calculation has proven rather difficult. The step in the pipeline is also rather slow
 for no understandable reason.
 
-### [Dockerfile](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/Dockerfile)
-The reason for copying over our own [nginx.conf](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/nginx.conf) 
+### [Dockerfile](https://github.com/statisticsnorway/react-reference-app/blob/master/Dockerfile)
+The reason for copying over our own [nginx.conf](https://github.com/statisticsnorway/react-reference-app/blob/master/nginx.conf) 
 is for it to work with **React Router** and provide a `/health` endpoint.
 
 The `/health` endpoint is added so one can check for liveness and readiness of the Nginx serving the application.
 For now, they are equal but maybe in the future readiness will check for liveness of the application's integration points.
 
-### [Azure Pipelines (azure-pipelines.yml)](https://github.com/statisticsnorway/fe-react-reference-app/blob/master/azure-pipelines.yml) 
+### [Azure Pipelines (azure-pipelines.yml)](https://github.com/statisticsnorway/react-reference-app/blob/master/azure-pipelines.yml) 
 The setup should be fairly easy by just following this applications `.azure-pipelines.yml` structure and remember to 
 replace application name in the variable `appName`.
-
-We will try to make use of caching in our Azure Piplelines which in essence is the usage of a `shared Yarn cache folder` 
-each time a pipeline is ran. Read about it [here](https://docs.microsoft.com/en-us/azure/devops/pipelines/release/caching?view=azure-devops#nodejsyarn).
 
 Unfortunatly we cannot run `steps` or `tasks` in parallel, but we have tried to make the pipeline as short as possible by
 seperating a build and test job for pull requests and a build and push Docker job for merges to master.

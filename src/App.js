@@ -7,7 +7,7 @@ import ResponseView from './components/ResponseView'
 import { UI } from './enums/UI'
 
 function App () {
-  const [url, setUrl] = useState(`${process.env.REACT_APP_API}${UI.SCHEMAS}`)
+  const [url, setUrl] = useState(`${window._env.REACT_APP_API}${UI.SCHEMAS}`)
 
   const [{ data, loading, error }, refetch] = useAxios(url, { manual: true })
 
