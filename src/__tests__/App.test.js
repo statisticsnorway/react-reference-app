@@ -22,7 +22,7 @@ test('App renders correctly', () => {
   useAxios.mockReturnValue([{ data: undefined, loading: false, error: null }, refetch])
   const { getByPlaceholderText } = setup()
 
-  expect(getByPlaceholderText(UI.PLACEHOLDER).value).toEqual(`${process.env.REACT_APP_API}${UI.SCHEMAS}`)
+  expect(getByPlaceholderText(UI.PLACEHOLDER).value).toEqual(`${window._env.REACT_APP_API}${UI.SCHEMAS}`)
 })
 
 test('App renders with response from backend', () => {
@@ -32,7 +32,7 @@ test('App renders with response from backend', () => {
   userEvent.type(getByPlaceholderText(UI.PLACEHOLDER), '/')
   userEvent.click(getByText(UI.BUTTON))
 
-  expect(useAxios).toHaveBeenNthCalledWith(3, `${process.env.REACT_APP_API}${UI.SCHEMAS}/`, { 'manual': true })
+  expect(useAxios).toHaveBeenNthCalledWith(3, `${window._env.REACT_APP_API}${UI.SCHEMAS}/`, { 'manual': true })
 })
 
 test('Pressing "Enter" triggers backend call', () => {
@@ -41,7 +41,7 @@ test('Pressing "Enter" triggers backend call', () => {
 
   userEvent.type(getByPlaceholderText(UI.PLACEHOLDER), '{enter}')
 
-  expect(useAxios).toHaveBeenNthCalledWith(4, `${process.env.REACT_APP_API}${UI.SCHEMAS}`, { 'manual': true })
+  expect(useAxios).toHaveBeenNthCalledWith(4, `${window._env.REACT_APP_API}${UI.SCHEMAS}`, { 'manual': true })
 })
 
 test('App renders error when backend call returns error', () => {
