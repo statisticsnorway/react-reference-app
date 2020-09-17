@@ -10,7 +10,6 @@ resources:
     - repository: templates
       type: github
       name: statisticsnorway/azure-pipelines-templates
-      ref: 'refs/heads/feature/docker-remote-retag'
       endpoint: statisticsnorway (6)
 
 pool:
@@ -24,7 +23,7 @@ variables:
     value: '$(Build.SourceBranchName)-$(Build.SourceVersion)'
 
 jobs:
-  - template: javascript/react-complete-build-test.yml@templates
+  - template: javascript/react-complete-build.yml@templates
     parameters:
       appName: $(appName)
       imageTag: $(imageTag)

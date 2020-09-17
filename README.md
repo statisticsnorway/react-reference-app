@@ -140,7 +140,8 @@ For now, they are equal but maybe in the future readiness will check for livenes
 
 ### [Azure Pipelines (azure-pipelines.yml)](https://github.com/statisticsnorway/react-reference-app/blob/master/azure-pipelines.yml) 
 The setup should be fairly easy by just following this applications `.azure-pipelines.yml` structure and remember to 
-replace application name in the variable `appName`.
+replace application name in the variable `appName`. Currently we make use of templates for the pipeline so the setup for 
+new projects should be very straightforward.
 
 Unfortunatly we cannot run `steps` or `tasks` in parallel, but we have tried to make the pipeline as short as possible by
 seperating a build and test job for pull requests and a build and push Docker job for merges to master.
