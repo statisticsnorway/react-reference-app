@@ -1,52 +1,23 @@
 import React from 'react'
-import useAxios from 'axios-hooks'
-import userEvent from '@testing-library/user-event'
 import { render } from '@testing-library/react'
 
 import App from '../App'
-import { UI } from '../enums/UI'
+import { AppContextProvider } from '../context/AppContext'
 
-jest.mock('../components/ResponseView', () => () => null)
-
-const refetch = jest.fn()
-const errorString = 'A problem occured'
-const errorObject = { response: { data: errorString } }
+jest.mock('../components/AppHome', () => () => null)
+jest.mock('../components/AppMenu', () => () => null)
+jest.mock('../components/AppSettings', () => () => null)
 
 const setup = () => {
-  const { getByPlaceholderText, getByText } = render(<App />)
+  const { getByText } = render(
+    <AppContextProvider>
+      <App />
+    </AppContextProvider>
+  )
 
-  return { getByPlaceholderText, getByText }
+  return { getByText }
 }
 
-test('App renders correctly', () => {
-  useAxios.mockReturnValue([{ data: undefined, loading: false, error: null }, refetch])
-  const { getByPlaceholderText } = setup()
-
-  expect(getByPlaceholderText(UI.PLACEHOLDER).value).toEqual(`${window._env.REACT_APP_API}${UI.SCHEMAS}`)
-})
-
-test('App renders with response from backend', () => {
-  useAxios.mockReturnValue([{ data: {}, loading: false, error: null }, refetch])
-  const { getByPlaceholderText, getByText } = setup()
-
-  userEvent.type(getByPlaceholderText(UI.PLACEHOLDER), '/')
-  userEvent.click(getByText(UI.BUTTON))
-
-  expect(useAxios).toHaveBeenNthCalledWith(3, `${window._env.REACT_APP_API}${UI.SCHEMAS}/`, { 'manual': true })
-})
-
-test('Pressing "Enter" triggers backend call', () => {
-  useAxios.mockReturnValue([{ data: {}, loading: false, error: null }, refetch])
-  const { getByPlaceholderText } = setup()
-
-  userEvent.type(getByPlaceholderText(UI.PLACEHOLDER), '{enter}')
-
-  expect(useAxios).toHaveBeenNthCalledWith(4, `${window._env.REACT_APP_API}${UI.SCHEMAS}`, { 'manual': true })
-})
-
-test('App renders error when backend call returns error', () => {
-  useAxios.mockReturnValue([{ data: undefined, loading: false, error: errorObject }, refetch])
-  const { getByText } = setup()
-
-  expect(getByText(errorString)).toBeInTheDocument()
+test('Does not crash', () => {
+  setup()
 })
