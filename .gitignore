@@ -8,5 +8,6 @@
 /build
 
 # misc
+.DS_Store
 /.idea
 /public/env.js

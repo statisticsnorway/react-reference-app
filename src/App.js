@@ -1,17 +1,21 @@
-import React, { useState } from 'react'
-import { Segment } from 'semantic-ui-react'
+import React, { useRef, useState } from 'react'
+import { Ref, Segment } from 'semantic-ui-react'
 
 import { AppHome, AppMenu, AppSettings } from './components'
 
 function App () {
+  const appRefArea = useRef()
+
   const [settingsOpen, setSettingsOpen] = useState(false)
 
   return (
     <>
       <AppMenu setSettingsOpen={setSettingsOpen} />
-      <Segment basic>
-        <AppHome />
-      </Segment>
+      <Ref innerRef={appRefArea}>
+        <Segment basic>
+          <AppHome />
+        </Segment>
+      </Ref>
       <AppSettings open={settingsOpen} setOpen={setSettingsOpen} />
     </>
   )
