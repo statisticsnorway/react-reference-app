@@ -18,7 +18,7 @@ pool:
 variables:
   - group: Hemmeligheter
   - name: 'appName'
-    value: 'react-reference-app'
+    value: 'dapla-react-reference-app'
   - name: 'imageTag'
     value: '$(Build.SourceBranchName)-$(Build.SourceVersion)'
 

@@ -1,9 +1,8 @@
-# react-reference-app
-[![Build Status](https://dev.azure.com/statisticsnorway/Dapla/_apis/build/status/Frontends/statisticsnorway.react-reference-app?branchName=master)](https://dev.azure.com/statisticsnorway/Dapla/_build/latest?definitionId=35&branchName=master)
+# dapla-react-reference-app
+[![Build Status](https://dev.azure.com/statisticsnorway/Dapla/_apis/build/status/Frontends/statisticsnorway.dapla-react-reference-app?branchName=master)](https://dev.azure.com/statisticsnorway/Dapla/_build/latest?definitionId=129&branchName=master)
 
 This application is mainly built for developers at Statistics Norway and its documentation should be used as a 
-reference when creating new React applications that you want to deploy to 
-[BIP](https://github.com/statisticsnorway/platform).
+reference when creating new React applications for our Dataplatform.
 
 **Note:** Everything written here is subject to change during a testing and setup process.
 
@@ -35,6 +34,7 @@ Use `yarn create react-app [my-app]` when creating new applications (almost ever
 Replace `[my-app]` with the name of your application. If you want a more complete and preconfigured project setup for you
 there is the possibility to use cra-templates:
 * For React application go to https://github.com/statisticsnorway/cra-template-dapla-react-app
+  * This application was built using this template
 * For JavaScript library go to https://github.com/statisticsnorway/cra-template-dapla-js-lib
 
 ### Preferred dependencies (tips)
@@ -46,7 +46,6 @@ there is the possibility to use cra-templates:
 * When working with http-requests, use [axios](https://github.com/axios/axios) and [axios-hooks](https://github.com/simoneb/axios-hooks)
 * Need to generate valid RFC UUIDs? Use [uuid](https://github.com/kelektiv/node-uuid)
 * When writing tests, use [Jest](https://jestjs.io/en/) (comes pre-installed when creating application) and [React Testing Library](https://testing-library.com/react)
-  * If you need more matchers than Jest offers, use [jest-dom](https://github.com/gnapse/jest-dom)
 * Need a simple GraphQL client? Check out [graphql-request](https://github.com/prisma/graphql-request)
   * Alternatively try a more rich hooks variant [graphql-hooks](https://github.com/nearform/graphql-hooks)
 
@@ -63,9 +62,7 @@ because they may contribute to inaccurate coverage reporting.
 `CI=true yarn coverage` exits with code 1 if thresholds are not met (those set in `package.json`) and thus
 will not result in a successful test run.
 
-Check out the tests written in this application, [variable-search](https://github.com/statisticsnorway/variable-search/tree/master/src/__tests__)
-or [user-access-admin](https://github.com/statisticsnorway/user-access-admin/tree/master/src/__tests__)
-to get you started if you need some ideas. There are also tests written to get you going in the templates.
+Check out the tests written in this application to get you started if you need some ideas. 
 
 ### Try this application locally
 The first time you clone the repository, remember to run `yarn` or `yarn install`.
@@ -76,9 +73,9 @@ Run `yarn start` and navigate to `http://localhost:3000/`.
 
 ### Docker locally
 * `yarn build`
-* `docker build -t react-reference-app .`
-* `docker run -p 8000:80 react-reference-app:latest`
-  * Alternatively with custom environment variables: `docker run -p 8000:80 -e REACT_APP_API=http://localhost:9091 react-reference-app:latest`
+* `docker build -t dapla-react-reference-app .`
+* `docker run -p 8000:80 dapla-react-reference-app:latest`
+  * Alternatively with custom environment variables: `docker run -p 8000:80 -e REACT_APP_API=http://localhost:9091 dapla-react-reference-app:latest`
 * Navigate to `http://localhost:8000/`
 
 ## More things
@@ -89,6 +86,7 @@ provided by the React developers.
 ### Runtime environment variables
 There is [documentation](https://create-react-app.dev/docs/title-and-meta-tags/#injecting-data-from-the-server-into-the-page)
 on this and even an importable component called [react-env](https://github.com/beam-australia/react-env) which you can try out.
+This application uses it.
 
 **Note** about using **react-env**. If you want to maintain control over your Docker image with things such as your own 
 `nginx.conf` and you do not want to package `react-env` with your application you can do it the way it is done in this 
@@ -104,13 +102,13 @@ this makes the Docker build step in the pipline a little slower, which is only a
 
 You can read about the issues surrounding runtime environment variables in React applications on the 
 [React GitHub page](https://github.com/facebook/create-react-app), issue 2353. This is where **react-env** and some 
-other hacky solutions are mentioned.
+other solutions are mentioned.
 
 ### React application as a library
 Requires some configuration and bundling with [rollup.js](https://rollupjs.org/guide/en). One such
 library is [dapla-js-utilities](https://github.com/statisticsnorway/dapla-js-utilities) and another is 
 [ssb-components-library](https://github.com/statisticsnorway/ssb-component-library). These can be used as examples for
-how to set it up correctly.
+how to set it up correctly. Or you can use the template mentioned under [Getting started - What you need](#what-you-need).
 
 ## Deployment
 You can read all about it in the [SSB developer guide](https://github.com/statisticsnorway/ssb-developer-guide/blob/master/docs/azure_pipeline_doc.md),
@@ -128,8 +126,7 @@ set in the file is just standard exclusions.
 
 **Note** that our experience with SonarQube so far has been a mixed bag. It provides some very nifty information about our code
 and detects code smells and bugs rather accuratly and displays it in a nice UI. However, configurating SonarQube to correctly 
-exclude certain files from coverage calculation has proven rather difficult. The step in the pipeline is also rather slow
-for no understandable reason.
+exclude certain files from coverage calculation has proven rather difficult. The step in the pipeline is a bit slow.
 
 ### [Dockerfile](https://github.com/statisticsnorway/react-reference-app/blob/master/Dockerfile)
 The reason for copying over our own [nginx.conf](https://github.com/statisticsnorway/react-reference-app/blob/master/nginx.conf) 
