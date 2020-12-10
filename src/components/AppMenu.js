@@ -1,17 +1,17 @@
 import React, { useContext, useState } from 'react'
 import { Dropdown, Header, Image, Menu, Sticky } from 'semantic-ui-react'
-import { LANGUAGE, SSB_COLORS, ssb_logo_rgb } from '@statisticsnorway/dapla-js-utilities'
+import { LANGUAGE, SSB_COLORS, ssb_logo_no_text_rgb, ssb_logo_rgb } from '@statisticsnorway/dapla-js-utilities'
 
 import { LanguageContext } from '../context/AppContext'
 import { UI } from '../enums'
 
-function AppMenu ({ setSettingsOpen }) {
+function AppMenu ({ setSettingsOpen, context }) {
   const { language, setLanguage } = useContext(LanguageContext)
 
   const [menuIsStuck, setMenuIsStuck] = useState(false)
 
   return (
-    <Sticky onUnstick={() => setMenuIsStuck(false)} onStick={() => setMenuIsStuck(true)}>
+    <Sticky onUnstick={() => setMenuIsStuck(false)} onStick={() => setMenuIsStuck(true)} context={context}>
       <Menu
         secondary
         size={menuIsStuck ? 'large' : 'huge'}
@@ -23,7 +23,7 @@ function AppMenu ({ setSettingsOpen }) {
         }}
       >
         <Menu.Item>
-          <Image size={menuIsStuck ? 'small' : 'medium'} src={ssb_logo_rgb} />
+          <Image size={menuIsStuck ? 'tiny' : 'medium'} src={menuIsStuck ? ssb_logo_no_text_rgb : ssb_logo_rgb} />
         </Menu.Item>
         <Menu.Item>
           <Header size={menuIsStuck ? 'medium' : 'huge'} content={UI.HEADER[language]} />

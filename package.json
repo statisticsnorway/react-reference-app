@@ -1,7 +1,7 @@
 {
   "name": "dapla-react-reference-app",
   "description": "A React reference application for Statistics Norway Dataplatform",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/statisticsnorway/dapla-react-reference-app"
@@ -13,7 +13,7 @@
     "axios-hooks": "^2.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-scripts": "4.0.0",
+    "react-scripts": "4.0.1",
     "semantic-ui-css": "^2.4.0",
     "semantic-ui-react": "^2.0.0"
   },
@@ -21,7 +21,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build && react-env --dest ./build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
     "prestart": "react-env --dest ./public",
     "coverage": "react-scripts test --coverage --watchAll=false"
   },

@@ -9,3 +9,7 @@ body {
 .ui.secondary.menu .active.item {
   font-weight: bold;
 }
+
+.ui.fullscreen.modal {
+  left: 2.5% !important;
+}

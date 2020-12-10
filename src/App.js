@@ -10,7 +10,7 @@ function App () {
 
   return (
     <>
-      <AppMenu setSettingsOpen={setSettingsOpen} />
+      <AppMenu setSettingsOpen={setSettingsOpen} context={appRefArea} />
       <Ref innerRef={appRefArea}>
         <Segment basic>
           <AppHome />
