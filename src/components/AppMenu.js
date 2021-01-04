@@ -23,7 +23,7 @@ function AppMenu ({ setSettingsOpen, context }) {
         }}
       >
         <Menu.Item>
-          <Image size={menuIsStuck ? 'tiny' : 'medium'} src={menuIsStuck ? ssb_logo_no_text_rgb : ssb_logo_rgb} />
+          <Image size={menuIsStuck ? 'mini' : 'medium'} src={menuIsStuck ? ssb_logo_no_text_rgb : ssb_logo_rgb} />
         </Menu.Item>
         <Menu.Item>
           <Header size={menuIsStuck ? 'medium' : 'huge'} content={UI.HEADER[language]} />

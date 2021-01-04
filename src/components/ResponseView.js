@@ -2,21 +2,21 @@ import React from 'react'
 import { Accordion, Container, List } from 'semantic-ui-react'
 
 function ResponseView ({ data }) {
-  const parseData = (data, first, index) => {
-    let composite = Array.isArray(data) ? {
+  const parseData = (dataToBeParsed, first, indexToBeParsed) => {
+    const composite = Array.isArray(dataToBeParsed) ? {
         key: 'a',
         title: 'array',
         content: {
-          content: (<List>{data.map((datum, index) => parseData(datum, false, index))}</List>)
+          content: (<List>{dataToBeParsed.map((datum, index) => parseData(datum, false, index))}</List>)
         }
       }
-      : typeof data === 'object' && data !== null ? {
+      : typeof dataToBeParsed === 'object' && dataToBeParsed !== null ? {
         key: 'o',
         title: 'object',
         content: {
           content: (
             <List>
-              {Object.entries(data).map((entry, index) =>
+              {Object.entries(dataToBeParsed).map((entry, index) =>
                 <List.Item key={index}>
                   <List.Header>{entry[0]}</List.Header>
                   {parseData(entry[1], false)}
@@ -30,7 +30,7 @@ function ResponseView ({ data }) {
     return (
       composite && first ? <Accordion fluid styled defaultActiveIndex={0} panels={[composite]} />
         : composite ? <Accordion.Accordion panels={[composite]} />
-        : <div key={index !== undefined ? index : 1}>{data}</div>
+        : <div key={indexToBeParsed !== undefined ? indexToBeParsed : 1}>{dataToBeParsed}</div>
     )
   }
 
