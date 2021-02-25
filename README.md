@@ -34,7 +34,7 @@ Use `yarn create react-app [my-app]` when creating new applications (almost ever
 Replace `[my-app]` with the name of your application. If you want a more complete and preconfigured project setup for you
 there is the possibility to use cra-templates:
 * For React application go to https://github.com/statisticsnorway/cra-template-dapla-react-app
-  * This application was built using this template
+  * This application (dapla-react-reference-app) was built using this template
 * For JavaScript library go to https://github.com/statisticsnorway/cra-template-dapla-js-lib
 
 ### Preferred dependencies (tips)
@@ -56,7 +56,7 @@ The `debug` property exposed by **React Testing Library** is very useful so do y
 
 Test coverage thresholds and other options can be configured in the `jest` object in [package.json](https://github.com/statisticsnorway/react-reference-app/blob/master/package.json),
 documentation found [here](https://jestjs.io/docs/en/configuration). Something to keep in mind would be to exclude files like 
-`index.js`, or files that only use external libraries. Mainly because these types of files do not need to be testet, but also
+`index.js`, or files that only use external libraries. Mainly because these types of files do not need to be tested, but also
 because they may contribute to inaccurate coverage reporting.
 
 `CI=true yarn coverage` exits with code 1 if thresholds are not met (those set in `package.json`) and thus
@@ -86,7 +86,7 @@ provided by the React developers.
 ### Runtime environment variables
 There is [documentation](https://create-react-app.dev/docs/title-and-meta-tags/#injecting-data-from-the-server-into-the-page)
 on this and even an importable component called [react-env](https://github.com/beam-australia/react-env) which you can try out.
-This application uses it.
+This application (dapla-react-reference-ap) uses it.
 
 **Note** about using **react-env**. If you want to maintain control over your Docker image with things such as your own 
 `nginx.conf` and you do not want to package `react-env` with your application you can do it the way it is done in this 
@@ -126,7 +126,7 @@ set in the file is just standard exclusions.
 
 **Note** that our experience with SonarQube so far has been a mixed bag. It provides some very nifty information about our code
 and detects code smells and bugs rather accuratly and displays it in a nice UI. However, configurating SonarQube to correctly 
-exclude certain files from coverage calculation has proven rather difficult. The step in the pipeline is a bit slow.
+exclude certain files from coverage calculation has proven rather difficult. The step in the pipeline is also a bit slow.
 
 ### [Dockerfile](https://github.com/statisticsnorway/react-reference-app/blob/master/Dockerfile)
 The reason for copying over our own [nginx.conf](https://github.com/statisticsnorway/react-reference-app/blob/master/nginx.conf) 
