@@ -5,7 +5,7 @@ const errorString = 'A problem occured'
 export const TEST_CONFIGURATIONS = {
   alternativeApi: 'http://localhost:9999',
   apiContext: fn => ({
-    api: window._env.REACT_APP_API,
+    api: window.__ENV.REACT_APP_API,
     setApi: fn
   }),
   errorObject: { response: { data: errorString } },

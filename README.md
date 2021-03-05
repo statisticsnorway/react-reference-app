@@ -55,9 +55,9 @@ DOM manipulation, use **React Testing Library** (guides found [here](https://tes
 The `debug` property exposed by **React Testing Library** is very useful so do yourself a favor and check it out!
 
 Test coverage thresholds and other options can be configured in the `jest` object in [package.json](https://github.com/statisticsnorway/react-reference-app/blob/master/package.json),
-documentation found [here](https://jestjs.io/docs/en/configuration). Something to keep in mind would be to exclude files like 
-`index.js`, or files that only use external libraries. Mainly because these types of files do not need to be tested, but also
-because they may contribute to inaccurate coverage reporting.
+documentation found [here](https://jestjs.io/docs/en/configuration). Something to keep in mind would be to exclude files 
+like `index.js`, or files that only use external libraries. Mainly because these types of files do not need to be tested,
+but also because they may contribute to inaccurate coverage reporting.
 
 `CI=true yarn coverage` exits with code 1 if thresholds are not met (those set in `package.json`) and thus
 will not result in a successful test run.
@@ -85,24 +85,26 @@ provided by the React developers.
 
 ### Runtime environment variables
 There is [documentation](https://create-react-app.dev/docs/title-and-meta-tags/#injecting-data-from-the-server-into-the-page)
-on this and even an importable component called [react-env](https://github.com/beam-australia/react-env) which you can try out.
-This application (dapla-react-reference-ap) uses it.
+on this and even an importable component called [@beam-australia/react-env](https://github.com/andrewmclagan/react-env) 
+which you can try out. This application (dapla-react-reference-app) uses it.
 
-**Note** about using **react-env**. If you want to maintain control over your Docker image with things such as your own 
-`nginx.conf` and you do not want to package `react-env` with your application you can do it the way it is done in this 
-project. Basically this means you have to:
-* Write your own `docker-entrypoint.sh` file which uses **react-env** in the same way they use it in their provided 
-Docker image
-* Refer to your environment variables with `window._env` instead of **react-env**'s built-in `env` function.
+**Note** about using **@beam-australia/react-env**. If you want to maintain control over your Docker image with things 
+such as your own `nginx.conf` and you do not want to package `@beam-australia/react-env` with your application you can 
+do it the way it is done in this project. Basically this means you have to:
+* Write your own `docker-entrypoint.sh` file which uses **@beam-australia/react-env** in the same way they use it in 
+  their provided Docker image
+* Refer to your environment variables with `window.__ENV` instead of **@beam-australia/react-env**'s built-in `env`
+  function.
 
-Another caveat to using **react-env** (or your own scripts to do the same thing) is that **nodejs**, **yarn** and 
-**@beam-australia/react-env**, or something eqvivalent that can run scripts and build the `env.js` file, have to be
-present in the Docker image. Which unfornunatly makes the final application image not so slim after all. Additonally 
-this makes the Docker build step in the pipline a little slower, which is only adding time to an already slow pipeline.
+Another caveat to using **@beam-australia/react-env** (or your own scripts to do the same thing) is that **nodejs**, 
+**yarn** and **@beam-australia/react-env**, or something equivalent that can run scripts and build the `__ENV.js` file, 
+have to be present in the Docker image. Which unfortunately makes the final application image not so slim after all. 
+Additionally, this makes the Docker build step in the pipeline a little slower, which is only adding time to an already 
+slow pipeline.
 
 You can read about the issues surrounding runtime environment variables in React applications on the 
-[React GitHub page](https://github.com/facebook/create-react-app), issue 2353. This is where **react-env** and some 
-other solutions are mentioned.
+[React GitHub page](https://github.com/facebook/create-react-app), issue 2353. This is where 
+**@beam-australia/react-env**, and some other solutions are mentioned.
 
 ### React application as a library
 Requires some configuration and bundling with [rollup.js](https://rollupjs.org/guide/en). One such
@@ -124,9 +126,10 @@ to work properly with JavaScript code you need some additional configuration fou
 file. `sonar.coverage.exclusions` needs to mirror your settings in the `jest` property in `package.json`. Everything else
 set in the file is just standard exclusions.
 
-**Note** that our experience with SonarQube so far has been a mixed bag. It provides some very nifty information about our code
-and detects code smells and bugs rather accuratly and displays it in a nice UI. However, configurating SonarQube to correctly 
-exclude certain files from coverage calculation has proven rather difficult. The step in the pipeline is also a bit slow.
+**Note** that our experience with SonarQube so far has been a mixed bag. It provides some very nifty information about 
+our code and detects code smells and bugs rather accurately and displays it in a nice UI. However, configuring SonarQube
+to correctly exclude certain files from coverage calculation has proven rather difficult. The step in the pipeline is 
+also a bit slow.
 
 ### [Dockerfile](https://github.com/statisticsnorway/react-reference-app/blob/master/Dockerfile)
 The reason for copying over our own [nginx.conf](https://github.com/statisticsnorway/react-reference-app/blob/master/nginx.conf) 
@@ -137,8 +140,8 @@ For now, they are equal but maybe in the future readiness will check for livenes
 
 ### [Azure Pipelines (azure-pipelines.yml)](https://github.com/statisticsnorway/react-reference-app/blob/master/azure-pipelines.yml) 
 The setup should be fairly easy by just following this applications `.azure-pipelines.yml` structure and remember to 
-replace application name in the variable `appName`. Currently we make use of templates for the pipeline so the setup for 
+replace application name in the variable `appName`. Currently, we make use of templates for the pipeline, so the setup for 
 new projects should be very straightforward.
 
-Unfortunatly we cannot run `steps` or `tasks` in parallel, but we have tried to make the pipeline as short as possible by
-seperating a build and test job for pull requests and a build and push Docker job for merges to master.
+Unfortunately we cannot run `steps` or `tasks` in parallel, but we have tried to make the pipeline as short as possible by
+separating a build and test job for pull requests and a build and push Docker job for merges to master.

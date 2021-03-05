@@ -11,7 +11,7 @@ import { UI } from '../enums'
 function AppHome () {
   const { language } = useContext(LanguageContext)
 
-  const [url, setUrl] = useState(`${window._env.REACT_APP_API}${API.GET_SCHEMAS}`)
+  const [url, setUrl] = useState(`${window.__ENV.REACT_APP_API}${API.GET_SCHEMAS}`)
 
   const [{ data, loading, error }, refetch] = useAxios(url, { manual: true, useCache: false })
 
