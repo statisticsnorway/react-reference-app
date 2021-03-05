@@ -37,7 +37,7 @@ describe('Common mock', () => {
     userEvent.type(getByPlaceholderText(UI.PLACEHOLDER[language]), '/')
     userEvent.click(getByText(UI.BUTTON[language]))
 
-    expect(useAxios).toHaveBeenCalledWith(`${window._env.REACT_APP_API}${API.GET_SCHEMAS}/`, {
+    expect(useAxios).toHaveBeenCalledWith(`${window.__ENV.REACT_APP_API}${API.GET_SCHEMAS}/`, {
       'manual': true,
       'useCache': false
     })
@@ -48,7 +48,7 @@ describe('Common mock', () => {
 
     userEvent.type(getByPlaceholderText(UI.PLACEHOLDER[language]), '{enter}')
 
-    expect(useAxios).toHaveBeenCalledWith(`${window._env.REACT_APP_API}${API.GET_SCHEMAS}`, {
+    expect(useAxios).toHaveBeenCalledWith(`${window.__ENV.REACT_APP_API}${API.GET_SCHEMAS}`, {
       'manual': true,
       'useCache': false
     })
@@ -59,7 +59,7 @@ test('Renders correctly', () => {
   useAxios.mockReturnValue([{ data: undefined, loading: false, error: null }, refetch])
   const { getByPlaceholderText } = setup()
 
-  expect(getByPlaceholderText(UI.PLACEHOLDER[language]).value).toEqual(`${window._env.REACT_APP_API}${API.GET_SCHEMAS}`)
+  expect(getByPlaceholderText(UI.PLACEHOLDER[language]).value).toEqual(`${window.__ENV.REACT_APP_API}${API.GET_SCHEMAS}`)
 })
 
 test('Renders error when backend call returns error', () => {

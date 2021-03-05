@@ -39,8 +39,8 @@ function AppSettings ({ open, setOpen }) {
 
   const setDefaults = () => {
     setSettingsEdited(true)
-    setApi(window._env.REACT_APP_API)
-    setApiUrl(window._env.REACT_APP_API)
+    setApi(window.__ENV.REACT_APP_API)
+    setApiUrl(window.__ENV.REACT_APP_API)
   }
 
   useEffect(() => {
