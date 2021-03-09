@@ -74,8 +74,8 @@ Run `yarn start` and navigate to `http://localhost:3000/`.
 ### Docker locally
 * `yarn build`
 * `docker build -t dapla-react-reference-app .`
-* `docker run -p 8000:80 dapla-react-reference-app:latest`
-  * Alternatively with custom environment variables: `docker run -p 8000:80 -e REACT_APP_API=http://localhost:9091 dapla-react-reference-app:latest`
+* `docker run -p 8000:8180 dapla-react-reference-app:latest`
+  * Alternatively with custom environment variables: `docker run -p 8000:8180 -e REACT_APP_API=http://localhost:9091 dapla-react-reference-app:latest`
 * Navigate to `http://localhost:8000/`
 
 ## More things
