@@ -1529,10 +1529,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@statisticsnorway/dapla-js-utilities@^0.2.0":
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/@statisticsnorway/dapla-js-utilities/-/dapla-js-utilities-0.2.7.tgz#f07336ffedeb6487f18058156b043dc4a66410a2"
-  integrity sha512-JytdA6MNw9KXMb0S4rqLlyFY1B1I/zNvM1L0NwpbAuzfQ77+a/TWj2NPIy7F9I5uqh9EGSMdLCYyeXpti+XOqA==
+"@statisticsnorway/dapla-js-utilities@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@statisticsnorway/dapla-js-utilities/-/dapla-js-utilities-0.2.8.tgz#f89181a41fbeadc1c096d8752c7d6856ce7c1508"
+  integrity sha512-BLRZpx7dCSXbQK0TsZ0haCh46nrNcPDm9KS00AXgnZz733PQB0YiCVbjznpkQ/OwCxe6LRy/p1s9ex5IGMGccQ==
   dependencies:
     react "^17.0.1"
     react-dom "^17.0.1"
