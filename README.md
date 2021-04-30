@@ -2,7 +2,7 @@
 [![Build Status](https://dev.azure.com/statisticsnorway/Dapla/_apis/build/status/Frontends/statisticsnorway.dapla-react-reference-app?branchName=master)](https://dev.azure.com/statisticsnorway/Dapla/_build/latest?definitionId=129&branchName=master)
 
 This application is mainly built for developers at Statistics Norway and its documentation should be used as a 
-reference when creating new React applications for our Dataplatform.
+reference when creating new React applications for our Data Platform.
 
 **Note:** Everything written here is subject to change during a testing and setup process.
 

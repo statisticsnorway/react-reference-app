@@ -4,8 +4,8 @@ export const UI = {
     nb: 'Test'
   },
   HEADER: {
-    en: 'Dataplatform React Reference Application',
-    nb: 'Dataplattform React Referanseapplikasjon'
+    en: 'Dapla React Reference Application',
+    nb: 'Dapla React Referanseapplikasjon'
   },
   PLACEHOLDER: {
     en: 'Test endpoint...',
