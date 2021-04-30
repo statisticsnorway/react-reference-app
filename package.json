@@ -1,6 +1,6 @@
 {
   "name": "dapla-react-reference-app",
-  "description": "A React reference application for Statistics Norway Dataplatform",
+  "description": "A React reference application for Statistics Norway Data Platform",
   "version": "1.4.8",
   "repository": {
     "type": "git",
